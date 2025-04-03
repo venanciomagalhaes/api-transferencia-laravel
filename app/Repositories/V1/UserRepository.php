@@ -9,18 +9,27 @@ class UserRepository
 {
     public function getAllPaginated(): LengthAwarePaginator
     {
-        return User::with('role.permissions')->paginate();
+        return User::with([
+            'role.permissions',
+            'wallet'
+        ])->paginate();
     }
 
     public function create(array $data): User
     {
         $user = User::create($data);
-        $user->load('role.permissions');
+        $user->load([
+            'role.permissions',
+            'wallet'
+        ]);
         return $user;
     }
 
     public function findByUuid(string $uuid): User
     {
-        return User::with('role.permissions')->where('uuid', $uuid)->firstOrFail();
+        return User::with([
+            'role.permissions',
+            'wallet'
+        ])->where('uuid', $uuid)->firstOrFail();
     }
 }

@@ -10,11 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
 use App\Helpers\UuidHelper;
 
-uses(RefreshDatabase::class);
 
 test('GET /api/v1/users returns 200 status and correct structure when users exist', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
+
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
     $user = User::create([
         'uuid' => UuidHelper::generate(),
@@ -40,6 +38,7 @@ test('GET /api/v1/users returns 200 status and correct structure when users exis
                     'permissions' => [
                         '*' => ['name', 'description'],
                     ],
+                    "wallet_amount",
                     '__links' => [
                         'self',
                         'index',
@@ -57,8 +56,7 @@ test('GET /api/v1/users returns 204 when no users exist', function () {
 });
 
 test('POST /api/v1/users successfully creates a user', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
+
 
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
@@ -85,6 +83,7 @@ test('POST /api/v1/users successfully creates a user', function () {
                 'permissions' => [
                     '*' => ['name', 'description'],
                 ],
+                "wallet_amount",
                 '__links' => [
                     'self',
                     'index',
@@ -98,8 +97,6 @@ test('POST /api/v1/users successfully creates a user', function () {
 });
 
 test('POST /api/v1/users fails with invalid role', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
 
     $userData = [
         'name' => fake()->name(),
@@ -117,8 +114,6 @@ test('POST /api/v1/users fails with invalid role', function () {
 });
 
 test('GET /api/v1/users/{uuid} returns a specific user', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
 
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
@@ -145,6 +140,7 @@ test('GET /api/v1/users/{uuid} returns a specific user', function () {
                 'permissions' => [
                     '*' => ['name', 'description'],
                 ],
+                "wallet_amount",
                 '__links' => [
                     'self',
                     'index',
@@ -160,9 +156,6 @@ test('GET /api/v1/users/{uuid} returns 404 for a non-existent user', function ()
 });
 
 test('POST /api/v1/users fails with duplicate email', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
-
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
     User::create([
@@ -190,8 +183,6 @@ test('POST /api/v1/users fails with duplicate email', function () {
 });
 
 test('POST /api/v1/users fails with duplicate CPF', function () {
-    $rolePermissionSeeder = new RolePermissionSeeder();
-    $rolePermissionSeeder->run();
 
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 

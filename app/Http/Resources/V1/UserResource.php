@@ -27,6 +27,7 @@ class UserResource extends JsonResource
                     'description' => $permission->description,
                 ];
             }),
+            'wallet_amount' => $this->resource->wallet->amount,
             "__links" => (
                 new HateoasBuilderHelper(
                     resource: $this->resource,

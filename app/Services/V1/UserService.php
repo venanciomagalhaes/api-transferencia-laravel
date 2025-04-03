@@ -4,18 +4,21 @@ namespace App\Services\V1;
 
 use App\Dtos\V1\User\UserStoreDto;
 use App\Mappers\V1\UserMapper;
+use App\Mappers\V1\WalletMapper;
 use App\Models\User;
 use App\Repositories\V1\RoleRepository;
 use App\Repositories\V1\UserRepository;
+use App\Repositories\V1\WalletRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Throwable;
 
-class UserService
+readonly class UserService
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly RoleRepository $roleRepository,
+        private UserRepository $userRepository,
+        private RoleRepository $roleRepository,
+        private WalletRepository $walletRepository,
     ) {}
 
     public function index(): LengthAwarePaginator
@@ -29,7 +32,9 @@ class UserService
             $role = $this->roleRepository->findByName($dto->getRoleName());
             $dto->setRoleId($role->id);
             $data = UserMapper::toArrayFromDto($dto);
-            return $this->userRepository->create($data);
+            $user = $this->userRepository->create($data);
+            $this->walletRepository->createDefaultWallet(WalletMapper::toArrayForStore($user->id));
+            return $user->load('wallet');
         });
 
     }
