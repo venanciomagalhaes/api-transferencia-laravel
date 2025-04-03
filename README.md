@@ -45,3 +45,5 @@ php artisan migrate
 
 
 confirmar tudo
+
+php artisan l5-swagger:generate
