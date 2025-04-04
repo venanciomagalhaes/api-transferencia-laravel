@@ -39,8 +39,10 @@ class UserStoreRequest extends FormRequest
             'cpf_cnpj' => [
                 'required',
                 'string',
+                'min:11',
+                'max:14',
+                new CpfCnpj(),
                 'unique:users,cpf_cnpj',
-                new CpfCnpj()
             ],
             'password' => [
                 'required',

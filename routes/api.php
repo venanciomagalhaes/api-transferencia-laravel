@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\V1\TransferController;
 use App\Http\Controllers\V1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,4 +12,7 @@ Route::group(['prefix' => 'v1'], function () {
         ->name('v1.users.show');
     Route::post('/users', [UserController::class, 'store'])
         ->name('v1.users.store');
+
+    Route::post('/transfer', [TransferController::class, 'transfer'])
+        ->name('v1.transfer');
 });
