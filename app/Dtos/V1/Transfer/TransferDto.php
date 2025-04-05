@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dtos\V1;
+namespace App\Dtos\V1\Transfer;
 
 class TransferDto
 {

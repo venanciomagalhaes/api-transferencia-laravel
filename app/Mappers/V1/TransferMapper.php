@@ -2,7 +2,7 @@
 
 namespace App\Mappers\V1;
 
-use App\Dtos\V1\TransferDto;
+use App\Dtos\V1\Transfer\TransferDto;
 use App\Helpers\UuidHelper;
 use App\Http\Requests\V1\TransferRequest;
 use App\Http\Resources\TransferResource;

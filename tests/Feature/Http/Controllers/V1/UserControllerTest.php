@@ -3,24 +3,24 @@
 namespace Tests\Feature\Http\Controllers\V1;
 
 use App\Enums\RolesEnum;
+use App\Helpers\UuidHelper;
+use App\Models\User;
+use App\Models\Wallet;
 use App\Repositories\V1\RoleRepository;
-use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\User;
-use App\Helpers\UuidHelper;
 
+uses(RefreshDatabase::class);
 
 test('GET /api/v1/users returns 200 status and correct structure when users exist', function () {
-
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
-    $user = User::create([
+
+    $user = User::factory()->withRole($role)->create();
+
+    Wallet::create([
         'uuid' => UuidHelper::generate(),
-        'name' => fake()->name(),
-        'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725',
-        'password' => bcrypt('Password@123'),
-        'role_id' => $role->id,
+        'user_id' => $user->id,
+        'amount' => 1000,
     ]);
 
     $response = $this->getJson('/api/v1/users');
@@ -38,11 +38,8 @@ test('GET /api/v1/users returns 200 status and correct structure when users exis
                     'permissions' => [
                         '*' => ['name', 'description'],
                     ],
-                    "wallet_amount",
-                    '__links' => [
-                        'self',
-                        'index',
-                    ],
+                    'wallet_amount',
+                    '__links' => ['self', 'index'],
                 ],
             ],
             'pagination',
@@ -56,14 +53,12 @@ test('GET /api/v1/users returns 204 when no users exist', function () {
 });
 
 test('POST /api/v1/users successfully creates a user', function () {
-
-
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
     $userData = [
         'name' => fake()->name(),
         'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725',
+        'cpf_cnpj' => '12202040641',
         'password' => 'Password@123',
         'password_confirmation' => 'Password@123',
         'role' => $role->name,
@@ -83,25 +78,19 @@ test('POST /api/v1/users successfully creates a user', function () {
                 'permissions' => [
                     '*' => ['name', 'description'],
                 ],
-                "wallet_amount",
-                '__links' => [
-                    'self',
-                    'index',
-                ],
+                'wallet_amount',
+                '__links' => ['self', 'index'],
             ],
         ]);
 
-    $this->assertDatabaseHas('users', [
-        'email' => $userData['email'],
-    ]);
+    $this->assertDatabaseHas('users', ['email' => $userData['email']]);
 });
 
 test('POST /api/v1/users fails with invalid role', function () {
-
     $userData = [
         'name' => fake()->name(),
         'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725',
+        'cpf_cnpj' => fake()->unique()->numerify('###########'),
         'password' => 'Password@123',
         'password_confirmation' => 'Password@123',
         'role' => 'invalid_role',
@@ -114,16 +103,14 @@ test('POST /api/v1/users fails with invalid role', function () {
 });
 
 test('GET /api/v1/users/{uuid} returns a specific user', function () {
-
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
-    $user = User::create([
-        'uuid' => UuidHelper::generate(),
-        'name' => fake()->name(),
-        'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725',
-        'password' => bcrypt('Password@123'),
-        'role_id' => $role->id,
+    $user = User::factory()->withRole($role)->create();
+
+    Wallet::create([
+        'uuid' => \App\Helpers\UuidHelper::generate(),
+        'user_id' => $user->id,
+        'amount' => 1000,
     ]);
 
     $response = $this->getJson("/api/v1/users/{$user->uuid}");
@@ -140,11 +127,8 @@ test('GET /api/v1/users/{uuid} returns a specific user', function () {
                 'permissions' => [
                     '*' => ['name', 'description'],
                 ],
-                "wallet_amount",
-                '__links' => [
-                    'self',
-                    'index',
-                ],
+                'wallet_amount',
+                '__links' => ['self', 'index'],
             ],
         ]);
 });
@@ -158,19 +142,16 @@ test('GET /api/v1/users/{uuid} returns 404 for a non-existent user', function ()
 test('POST /api/v1/users fails with duplicate email', function () {
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
-    User::create([
-        'uuid' => UuidHelper::generate(),
-        'name' => fake()->name(),
-        'email' => 'duplicate@example.com',
-        'cpf_cnpj' => '1234568909',
-        'password' => bcrypt('Password@123'),
-        'role_id' => $role->id,
+    $email = 'duplicate@example.com';
+
+    User::factory()->withRole($role)->create([
+        'email' => $email,
     ]);
 
     $userData = [
         'name' => fake()->name(),
-        'email' => 'duplicate@example.com', // E-mail duplicado
-        'cpf_cnpj' => '12202040641',
+        'email' => $email, // E-mail duplicado
+        'cpf_cnpj' => fake()->unique()->numerify('###########'),
         'password' => 'Password@123',
         'password_confirmation' => 'Password@123',
         'role' => $role->name,
@@ -183,22 +164,18 @@ test('POST /api/v1/users fails with duplicate email', function () {
 });
 
 test('POST /api/v1/users fails with duplicate CPF', function () {
-
     $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
 
-    User::create([
-        'uuid' => UuidHelper::generate(),
-        'name' => fake()->name(),
-        'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725',
-        'password' => bcrypt('Password@123'),
-        'role_id' => $role->id,
+    $cpf = '52998224725';
+
+    User::factory()->withRole($role)->create([
+        'cpf_cnpj' => $cpf,
     ]);
 
     $userData = [
         'name' => fake()->name(),
         'email' => fake()->unique()->safeEmail(),
-        'cpf_cnpj' => '52998224725', // CPF duplicado
+        'cpf_cnpj' => $cpf, // CPF duplicado
         'password' => 'Password@123',
         'password_confirmation' => 'Password@123',
         'role' => $role->name,

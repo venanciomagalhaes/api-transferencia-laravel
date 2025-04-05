@@ -2,7 +2,7 @@
 
 namespace App\Services\V1;
 
-use App\Dtos\V1\TransferDto;
+use App\Dtos\V1\Transfer\TransferDto;
 use App\Enums\PermissionsEnum;
 use App\Mappers\V1\TransferMapper;
 use App\Models\Transfer;
