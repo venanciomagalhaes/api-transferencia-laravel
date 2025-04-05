@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class HandlerException extends ExceptionHandler
 {
     protected $dontReport = [];
 
@@ -16,7 +16,6 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    //melhorar o tratamento de erros
     public function render($request, Throwable $exception): Response|JsonResponse
     {
         if ($request->expectsJson()) {
@@ -25,6 +24,12 @@ class Handler extends ExceptionHandler
                     ['message' => $exception->getMessage()],
                     $exception->getCode()
                 );
+            }
+
+            if ($exception instanceof ModelNotFoundException) {
+                return response()->json([
+                    'message' => 'Recurso não encontrado.',
+                ], Response::HTTP_NOT_FOUND);
             }
         }
 
