@@ -11,8 +11,15 @@
 |
 */
 
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+    ->use(RefreshDatabase::class)
+    ->beforeEach(function () {
+        $this->artisan('migrate');
+        $this->seed();
+    })
     ->in('Feature');
 
 /*
