@@ -48,6 +48,27 @@ services:
             timeout: 5s
             retries: 5
 
+    db-test:
+        image: mysql:8
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: "xyz_simplificado_test"
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_PASSWORD: "userpass"
+            MYSQL_USER: "username"
+        volumes:
+            - ./.docker/mysql-test/dbdata:/var/lib/mysql
+        ports:
+            - "3399:3306"
+        networks:
+            laravel:
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+
     # redis
     redis:
         image: redis:latest
