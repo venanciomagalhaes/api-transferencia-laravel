@@ -8,8 +8,8 @@ API desenvolvida com Laravel, Docker, Redis, MySQL e testada com PestPHP. Simula
 ## 🐳 Requisitos
 
 - Docker e Docker Compose  
-  👉 Instale seguindo este tutorial:  
-  [https://www.nerdlivre.com.br/instalando-docker-e-docker compose-no-ubuntu-24-04/](https://www.nerdlivre.com.br/instalando-docker-e-docker compose-no-ubuntu-24-04/)
+  👉 Instale seguindo este tutorial, se precisar:  
+  https://www.nerdlivre.com.br/instalando-docker-e-docker compose-no-ubuntu-24-04/
 
 ---
 
