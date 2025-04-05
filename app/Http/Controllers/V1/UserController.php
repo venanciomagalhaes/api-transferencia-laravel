@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  *         )
  *     ),
  *     @OA\Server(
- *         url=L5_SWAGGER_CONST_HOST,
+ *         url="http://localhost:8989",
  *         description="Servidor de desenvolvimento"
  *     )
  * )
@@ -37,82 +37,70 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/users",
-     *     summary="Lista todos os usuários",
-     *     tags={"Usuários"},
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         required=false,
-     *         description="Número da página para paginação",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
+     *     summary="Listar usuários",
+     *     description="Retorna a lista de usuários com suas permissões, saldo da carteira e links. As únicas opções de role são: 'customer' e 'merchant'.",
+     *     operationId="listUsers",
+     *     tags={"Users"},
+     *
      *     @OA\Response(
      *         response=200,
-     *         description="Lista de usuários",
+     *         description="Users listed successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Users listed successfully"),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
+     *             @OA\Property(property="data", type="array",
      *                 @OA\Items(
-     *                     @OA\Property(property="uuid", type="string", format="uuid", example="c1d2e3f4-5678-9012-3456-789abcdef012"),
-     *                     @OA\Property(property="name", type="string", example="Clark Kent"),
-     *                     @OA\Property(property="role", type="string", example="merchant"),
-     *                     @OA\Property(property="email", type="string", format="email", example="superman@dailyplanet.com"),
-     *                     @OA\Property(property="cpf_cnpj", type="string", example="98765432000188"),
-     *                     @OA\Property(
-     *                         property="permissions",
-     *                         type="array",
-     *                         @OA\Items(
-     *                             @OA\Property(property="name", type="string", example="receive-a-transfer"),
-     *                             @OA\Property(property="description", type="string", example="Allows the user to receive a transfer")
+     *                     @OA\Property(property="uuid", type="string", format="uuid", example="7487ca27-4302-4871-8ad6-52b185c8ea33"),
+     *                     @OA\Property(property="name", type="string", example="Pessoa Física"),
+     *                     @OA\Property(property="email", type="string", example="pf@gmail.com"),
+     *                     @OA\Property(property="role", type="string", example="customer", enum={"customer", "merchant"}),
+     *                     @OA\Property(property="cpf_cnpj", type="string", example="12345678909"),
+     *                     @OA\Property(property="permissions", type="array",
+     *                         @OA\Items(type="object",
+     *                             @OA\Property(property="name", type="string", example="make-a-transfer"),
+     *                             @OA\Property(property="description", type="string", example="Allows the user to make a transfer")
      *                         )
      *                     ),
-     *                     @OA\Property(
-     *                         property="__links",
-     *                         type="object",
-     *                         @OA\Property(
-     *                             property="self",
-     *                             type="object",
-     *                             @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/c1d2e3f4-5678-9012-3456-789abcdef012"),
+     *                     @OA\Property(property="wallet_amount", type="number", format="float", example=956.8),
+     *                     @OA\Property(property="__links", type="object",
+     *                         @OA\Property(property="self", type="object",
+     *                             @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/7487ca27-4302-4871-8ad6-52b185c8ea33"),
      *                             @OA\Property(property="method", type="string", example="GET")
      *                         ),
-     *                         @OA\Property(
-     *                             property="index",
-     *                             type="object",
+     *                         @OA\Property(property="index", type="object",
      *                             @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users"),
      *                             @OA\Property(property="method", type="string", example="GET")
      *                         )
      *                     )
      *                 )
      *             ),
-     *             @OA\Property(
-     *                 property="pagination",
-     *                 type="object",
+     *             @OA\Property(property="pagination", type="object",
      *                 @OA\Property(property="current_page", type="integer", example=1),
      *                 @OA\Property(property="first_page_url", type="string", example="http://localhost:8989/api/v1/users?page=1"),
+     *                 @OA\Property(property="from", type="integer", example=1),
      *                 @OA\Property(property="last_page", type="integer", example=1),
      *                 @OA\Property(property="last_page_url", type="string", example="http://localhost:8989/api/v1/users?page=1"),
-     *                 @OA\Property(
-     *                     property="links",
-     *                     type="array",
-     *                     @OA\Items(
+     *                 @OA\Property(property="next_page_url", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="path", type="string", example="http://localhost:8989/api/v1/users"),
+     *                 @OA\Property(property="per_page", type="integer", example=15),
+     *                 @OA\Property(property="prev_page_url", type="string", nullable=true, example=null),
+     *                 @OA\Property(property="to", type="integer", example=3),
+     *                 @OA\Property(property="total", type="integer", example=3),
+     *                 @OA\Property(property="links", type="array",
+     *                     @OA\Items(type="object",
      *                         @OA\Property(property="url", type="string", nullable=true, example=null),
      *                         @OA\Property(property="label", type="string", example="&laquo; Previous"),
      *                         @OA\Property(property="active", type="boolean", example=false)
      *                     )
-     *                 ),
-     *                 @OA\Property(property="next_page_url", type="string", nullable=true, example=null),
-     *                 @OA\Property(property="path", type="string", example="http://localhost:8989/api/v1/users"),
-     *                 @OA\Property(property="per_page", type="integer", example=15),
-     *                 @OA\Property(property="total", type="integer", example=1)
+     *                 )
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=204, description="Nenhum usuário encontrado")
+     *     @OA\Response(
+     *         response=204,
+     *         description="No users found"
+     *     )
      * )
      */
-
     public function index(): JsonResponse
     {
         $users = $this->userService->index();
@@ -122,55 +110,50 @@ class UserController extends Controller
     }
 
 
+
     /**
      * @OA\Post(
      *     path="/api/v1/users",
-     *     summary="Cria um novo usuário",
-     *     tags={"Usuários"},
+     *     summary="Criar um novo usuário",
+     *     description="Cria um novo usuário CUSTOMER ou MERCHANT, inicializando sua carteira e permissões. Por padrão, cada usuário começa com R$ 1.000,00 (apenas para fins didáticos para simular a transferência sem muitos passos anteriores)",
+     *     operationId="createUser",
+     *     tags={"Users"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="Bruce Wayne"),
-     *             @OA\Property(property="role", type="string", example="merchant"),
-     *             @OA\Property(property="email", type="string", format="email", example="batman@wayneenterprises.com"),
-     *             @OA\Property(property="cpf_cnpj", type="string", example="12345678000199"),
-     *             @OA\Property(property="password", type="string", format="password", example="SecretPass@123"),
-     *             @OA\Property(property="password_confirmation", type="string", format="password", example="SecretPass@123")
+     *             required={"name", "email", "cpf_cnpj", "password", "password_confirmation", "role"},
+     *             @OA\Property(property="name", type="string", example="João da Silva"),
+     *             @OA\Property(property="email", type="string", example="joao.silva@example.com"),
+     *             @OA\Property(property="cpf_cnpj", type="string", example="98765432100"),
+     *             @OA\Property(property="password", type="string", format="password", example="SenhaForte123!"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="SenhaForte123!"),
+     *             @OA\Property(property="role", type="string", enum={"customer", "merchant"}, example="merchant")
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Usuário criado com sucesso",
+     *         description="User created successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User created successfully."),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(property="uuid", type="string", format="uuid", example="a9b8c7d6-e5f4-3210-9988-776655443322"),
-     *                 @OA\Property(property="name", type="string", example="Bruce Wayne"),
+     *             @OA\Property(property="message", type="string", example="Usuário criado com sucesso."),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="uuid", type="string", format="uuid", example="d4e12e3a-74e4-4fd1-8c7f-4cbf9e2d9a92"),
+     *                 @OA\Property(property="name", type="string", example="João da Silva"),
      *                 @OA\Property(property="role", type="string", example="merchant"),
-     *                 @OA\Property(property="email", type="string", format="email", example="batman@wayneenterprises.com"),
-     *                 @OA\Property(property="cpf_cnpj", type="string", example="12345678000199"),
-     *                 @OA\Property(
-     *                     property="permissions",
-     *                     type="array",
-     *                     @OA\Items(
-     *                         @OA\Property(property="name", type="string", example="receive-a-transfer"),
-     *                         @OA\Property(property="description", type="string", example="Allows the user to receive a transfer")
+     *                 @OA\Property(property="email", type="string", example="joao.silva@example.com"),
+     *                 @OA\Property(property="cpf_cnpj", type="string", example="98765432100"),
+     *                 @OA\Property(property="permissions", type="array",
+     *                     @OA\Items(type="object",
+     *                         @OA\Property(property="name", type="string", example="receive-transfer"),
+     *                         @OA\Property(property="description", type="string", example="Allows the user to receive transfers")
      *                     )
      *                 ),
-     *                 @OA\Property(
-     *                     property="__links",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="self",
-     *                         type="object",
-     *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/a9b8c7d6-e5f4-3210-9988-776655443322"),
+     *                 @OA\Property(property="wallet_amount", type="number", format="float", example=1000),
+     *                 @OA\Property(property="__links", type="object",
+     *                     @OA\Property(property="self", type="object",
+     *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/d4e12e3a-74e4-4fd1-8c7f-4cbf9e2d9a92"),
      *                         @OA\Property(property="method", type="string", example="GET")
      *                     ),
-     *                     @OA\Property(
-     *                         property="index",
-     *                         type="object",
+     *                     @OA\Property(property="index", type="object",
      *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users"),
      *                         @OA\Property(property="method", type="string", example="GET")
      *                     )
@@ -178,11 +161,12 @@ class UserController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=422, description="Erro de validação"),
-     *     @OA\Response(response=500, description="Erro interno do servidor")
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erro de validação (campos inválidos ou ausentes)"
+     *     )
      * )
      */
-
     public function store(UserStoreRequest $request): JsonResponse
     {
         $dto = UserMapper::toStoreDto($request);
@@ -195,48 +179,41 @@ class UserController extends Controller
     /**
      * @OA\Get(
      *     path="/api/v1/users/{uuid}",
-     *     summary="Obtém um usuário pelo UUID",
-     *     tags={"Usuários"},
+     *     summary="Buscar usuário pelo UUID",
+     *     description="Retorna os detalhes de um usuário com suas permissões, saldo da carteira e links",
+     *     operationId="getUserByUuid",
+     *     tags={"Users"},
      *     @OA\Parameter(
      *         name="uuid",
      *         in="path",
      *         required=true,
      *         description="UUID do usuário",
-     *         @OA\Schema(type="string", format="uuid", example="a1b2c3d4-e5f6-7890-1234-56789abcdef0")
+     *         @OA\Schema(type="string", format="uuid", example="7487ca27-4302-4871-8ad6-52b185c8ea33")
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Detalhes do usuário",
+     *         description="User retrieved successfully",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="User retrieved successfully."),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                 @OA\Property(property="uuid", type="string", format="uuid", example="a1b2c3d4-e5f6-7890-1234-56789abcdef0"),
-     *                 @OA\Property(property="name", type="string", example="Tony Stark"),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="uuid", type="string", format="uuid", example="7487ca27-4302-4871-8ad6-52b185c8ea33"),
+     *                 @OA\Property(property="name", type="string", example="Pessoa Física"),
      *                 @OA\Property(property="role", type="string", example="customer"),
-     *                 @OA\Property(property="email", type="string", format="email", example="ironman@starkindustries.com"),
-     *                 @OA\Property(property="cpf_cnpj", type="string", example="12345678900"),
-     *                 @OA\Property(
-     *                     property="permissions",
-     *                     type="array",
-     *                     @OA\Items(
-     *                         @OA\Property(property="name", type="string", example="fly-with-armor"),
-     *                         @OA\Property(property="description", type="string", example="Allows the user to fly with the Iron Man suit")
+     *                 @OA\Property(property="email", type="string", example="pf@gmail.com"),
+     *                 @OA\Property(property="cpf_cnpj", type="string", example="12345678909"),
+     *                 @OA\Property(property="permissions", type="array",
+     *                     @OA\Items(type="object",
+     *                         @OA\Property(property="name", type="string", example="make-a-transfer"),
+     *                         @OA\Property(property="description", type="string", example="Allows the user to make a transfer")
      *                     )
      *                 ),
-     *                 @OA\Property(
-     *                     property="__links",
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="self",
-     *                         type="object",
-     *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/a1b2c3d4-e5f6-7890-1234-56789abcdef0"),
+     *                 @OA\Property(property="wallet_amount", type="number", format="float", example=956.8),
+     *                 @OA\Property(property="__links", type="object",
+     *                     @OA\Property(property="self", type="object",
+     *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users/7487ca27-4302-4871-8ad6-52b185c8ea33"),
      *                         @OA\Property(property="method", type="string", example="GET")
      *                     ),
-     *                     @OA\Property(
-     *                         property="index",
-     *                         type="object",
+     *                     @OA\Property(property="index", type="object",
      *                         @OA\Property(property="href", type="string", example="http://localhost:8989/api/v1/users"),
      *                         @OA\Property(property="method", type="string", example="GET")
      *                     )
@@ -244,10 +221,12 @@ class UserController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=404, description="Usuário não encontrado")
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     ),
      * )
      */
-
     public function show(string $uuid): JsonResponse
     {
         $user = $this->userService->show($uuid);
