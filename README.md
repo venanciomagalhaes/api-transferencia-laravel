@@ -107,6 +107,7 @@ Gere a documentação com Swagger:
 ```bash
 php artisan l5-swagger:generate
 ```
+A documentação estará disponível em http://localhost:8989/api/documentation
 
 ---
 
