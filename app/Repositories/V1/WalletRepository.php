@@ -16,6 +16,7 @@ class WalletRepository
     {
         $payee->wallet->amount += $transferValue;
         $payee->wallet->save();
+
         return $payee;
     }
 
@@ -23,6 +24,7 @@ class WalletRepository
     {
         $payer->wallet->amount -= $transferValue;
         $payer->wallet->save();
+
         return $payer;
     }
 }

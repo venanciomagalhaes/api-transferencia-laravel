@@ -10,11 +10,10 @@ use App\Models\Transfer;
 
 class TransferMapper
 {
-
     public static function toResource(Transfer $transfer): array
     {
         return [
-            'message'=> 'Transfer make successfully',
+            'message' => 'Transfer make successfully',
             'data' => new TransferResource($transfer),
         ];
     }
@@ -25,7 +24,7 @@ class TransferMapper
             'uuid' => UuidHelper::generate(),
             'payer_id' => $dto->getPayerId(),
             'payee_id' => $dto->getPayeeId(),
-            'amount' => $dto->getValue()
+            'amount' => $dto->getValue(),
         ];
     }
 

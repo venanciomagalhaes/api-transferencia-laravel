@@ -5,7 +5,6 @@ namespace Tests\Unit\Helpers;
 use App\Helpers\HateoasBuilderHelper;
 use Mockery;
 
-
 test('HateoasBuilderHelper builds correct links', function () {
     $mockModel = Mockery::mock(\Illuminate\Database\Eloquent\Model::class);
     $mockModel->shouldReceive('getAttribute')->with('uuid')->andReturn('1234-5678-91011');
@@ -22,7 +21,6 @@ test('HateoasBuilderHelper builds correct links', function () {
         ->and($links['delete']['method'])->toBe('DELETE');
 });
 
-
 test('HateoasBuilderHelper handles null resource', function () {
     $helper = new HateoasBuilderHelper(null, 'v1', 'users');
 
@@ -33,7 +31,6 @@ test('HateoasBuilderHelper handles null resource', function () {
         ->and($links['update']['href'])->toBe(url('/api/v1/users'))
         ->and($links['delete']['href'])->toBe(url('/api/v1/users'));
 });
-
 
 test('HateoasBuilderHelper adds a generic link', function () {
     $helper = new HateoasBuilderHelper(null, 'v1', 'users');

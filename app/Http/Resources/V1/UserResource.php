@@ -28,16 +28,16 @@ class UserResource extends JsonResource
                 ];
             }),
             'wallet_amount' => $this->resource->wallet->amount,
-            "__links" => (
+            '__links' => (
                 new HateoasBuilderHelper(
                     resource: $this->resource,
                     versionApi: 'v1',
                     basePath: '/users'
                 )
             )
-            ->self()
-            ->index()
-            ->build()
+                ->self()
+                ->index()
+                ->build(),
         ];
     }
 }

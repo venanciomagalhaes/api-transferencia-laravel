@@ -4,19 +4,15 @@ namespace App\Dtos\V1\Transfer;
 
 class TransferDto
 {
-
     private int $payeeId;
+
     private int $payerId;
-
-
 
     public function __construct(
         private float $value,
         private string $payerUuid,
         private string $payeeUuid
-    )
-    {
-    }
+    ) {}
 
     public function getPayeeUuid(): string
     {
@@ -33,7 +29,6 @@ class TransferDto
         return $this->payerUuid;
     }
 
-
     public function getPayeeId(): int
     {
         return $this->payeeId;
@@ -44,16 +39,13 @@ class TransferDto
         $this->payeeId = $payeeId;
     }
 
-
     public function getPayerId(): int
     {
         return $this->payerId;
     }
 
-
     public function setPayerId(int $payerId): void
     {
         $this->payerId = $payerId;
     }
-
 }

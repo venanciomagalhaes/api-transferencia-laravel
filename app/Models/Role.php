@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Role extends Model
 {
     protected $table = 'roles';
+
     protected $fillable = [
         'uuid',
-        'name'
+        'name',
     ];
 
     public function users(): HasMany
@@ -28,6 +29,4 @@ class Role extends Model
             'permission_id'
         );
     }
-
-
 }

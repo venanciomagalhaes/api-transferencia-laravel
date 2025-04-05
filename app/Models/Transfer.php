@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Transfer extends Model
 {
     protected $table = 'transfers';
+
     protected $fillable = ['uuid', 'payer_id', 'payee_id', 'amount'];
 
     public function payer(): BelongsTo

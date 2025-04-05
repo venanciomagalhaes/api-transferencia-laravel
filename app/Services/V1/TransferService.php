@@ -68,7 +68,7 @@ readonly class TransferService
 
     private function ensurePermission(User $user, PermissionsEnum $permission, string $message): void
     {
-        if (!Gate::allows('hasPermission', [$user, $permission])) {
+        if (! Gate::allows('hasPermission', [$user, $permission])) {
             abort(Response::HTTP_FORBIDDEN, $message);
         }
     }

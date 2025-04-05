@@ -11,7 +11,7 @@ class UserRepository
     {
         return User::with([
             'role.permissions',
-            'wallet'
+            'wallet',
         ])->paginate();
     }
 
@@ -20,8 +20,9 @@ class UserRepository
         $user = User::create($data);
         $user->load([
             'role.permissions',
-            'wallet'
+            'wallet',
         ]);
+
         return $user;
     }
 
@@ -29,7 +30,7 @@ class UserRepository
     {
         return User::with([
             'role.permissions',
-            'wallet'
+            'wallet',
         ])->where('uuid', $uuid)->firstOrFail();
     }
 }

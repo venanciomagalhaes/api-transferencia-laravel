@@ -4,20 +4,16 @@ namespace App\Dtos\V1\User;
 
 class UserStoreDto
 {
-
     private int $roleId;
-
 
     public function __construct(
         private readonly string $name,
-    private readonly string     $email,
-    private readonly string     $cpf_cnpj,
-    private readonly string     $password,
-    private readonly string     $roleName,
-    private readonly string     $password_confirmation,
-    ) {
-
-    }
+        private readonly string $email,
+        private readonly string $cpf_cnpj,
+        private readonly string $password,
+        private readonly string $roleName,
+        private readonly string $password_confirmation,
+    ) {}
 
     public function getName(): string
     {
@@ -31,7 +27,7 @@ class UserStoreDto
 
     public function getCpfCnpj(): string
     {
-        return preg_replace('/\D/', '', $this->cpf_cnpj);;
+        return preg_replace('/\D/', '', $this->cpf_cnpj);
     }
 
     public function getPassword(): string
@@ -53,7 +49,6 @@ class UserStoreDto
     {
         $this->roleId = $id;
     }
-
 
     public function getRoleId(): int
     {

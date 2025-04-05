@@ -33,7 +33,7 @@ class HateoasBuilderHelper
             return null;
         }
 
-        return rtrim('/api/' . trim($this->versionApi, '/') . '/' . trim($basePath, '/'), '/') . '/';
+        return rtrim('/api/'.trim($this->versionApi, '/').'/'.trim($basePath, '/'), '/').'/';
     }
 
     public function self(?string $customBasePath = null): self

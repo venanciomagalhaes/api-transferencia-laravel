@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 uses(RefreshDatabase::class);
 
 test('GET /api/v1/users returns 200 status and correct structure when users exist', function () {
-    $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
+    $role = (new RoleRepository)->findByName(RolesEnum::CUSTOMER->name);
 
     $user = User::factory()->withRole($role)->create();
 
@@ -53,7 +53,7 @@ test('GET /api/v1/users returns 204 when no users exist', function () {
 });
 
 test('POST /api/v1/users successfully creates a user', function () {
-    $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
+    $role = (new RoleRepository)->findByName(RolesEnum::CUSTOMER->name);
 
     $userData = [
         'name' => fake()->name(),
@@ -103,7 +103,7 @@ test('POST /api/v1/users fails with invalid role', function () {
 });
 
 test('GET /api/v1/users/{uuid} returns a specific user', function () {
-    $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
+    $role = (new RoleRepository)->findByName(RolesEnum::CUSTOMER->name);
 
     $user = User::factory()->withRole($role)->create();
 
@@ -140,7 +140,7 @@ test('GET /api/v1/users/{uuid} returns 404 for a non-existent user', function ()
 });
 
 test('POST /api/v1/users fails with duplicate email', function () {
-    $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
+    $role = (new RoleRepository)->findByName(RolesEnum::CUSTOMER->name);
 
     $email = 'duplicate@example.com';
 
@@ -164,7 +164,7 @@ test('POST /api/v1/users fails with duplicate email', function () {
 });
 
 test('POST /api/v1/users fails with duplicate CPF', function () {
-    $role = (new RoleRepository())->findByName(RolesEnum::CUSTOMER->name);
+    $role = (new RoleRepository)->findByName(RolesEnum::CUSTOMER->name);
 
     $cpf = '52998224725';
 

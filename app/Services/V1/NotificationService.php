@@ -12,7 +12,7 @@ class NotificationService
 
     public function notify()
     {
-        try{
+        try {
             $response = HttpClientHelper::post(static::$URL);
 
             if ($response->failed()) {
@@ -20,7 +20,7 @@ class NotificationService
             }
 
             return $response->json();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             throw new FailedNotificationException(
                 'Failed to send notification.',
                 Response::HTTP_INTERNAL_SERVER_ERROR,

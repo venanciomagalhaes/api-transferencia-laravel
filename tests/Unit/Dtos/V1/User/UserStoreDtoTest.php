@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Dtos\V1\User;
 
-
 use App\Dtos\V1\User\UserStoreDto;
 use App\Enums\RolesEnum;
 
@@ -30,8 +29,6 @@ test('creates UserStoreDto with valid data', function () {
         ->and($dto->getRoleName())->toBe($roleName)
         ->and($dto->getPasswordConfirmation())->toBe($passwordConfirmation);
 });
-
-
 
 test('sets and gets role ID', function () {
     $dto = new UserStoreDto(

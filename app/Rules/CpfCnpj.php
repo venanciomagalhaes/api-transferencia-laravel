@@ -14,7 +14,7 @@ class CpfCnpj implements ValidationRule
     {
         $value = preg_replace('/\D/', '', $value);
 
-        if (!$this->validateCpf($value) && !$this->validateCnpj($value)) {
+        if (! $this->validateCpf($value) && ! $this->validateCnpj($value)) {
             $fail("The field {$attribute} is not a valid CPF or CNPJ.");
         }
     }
@@ -35,6 +35,7 @@ class CpfCnpj implements ValidationRule
                 return false;
             }
         }
+
         return true;
     }
 
@@ -73,6 +74,7 @@ class CpfCnpj implements ValidationRule
         }
 
         $resultado = ($soma % 11 < 2) ? 0 : 11 - ($soma % 11);
+
         return $resultado == $digitos[1];
     }
 }

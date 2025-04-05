@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UserMapper
 {
-
     public static function toResource(User $user): array
     {
         return [
@@ -39,7 +38,7 @@ class UserMapper
         return [
             'message' => 'Users listed successfully',
             'data' => UserResource::collection($users->items()),
-            'pagination' => PaginationHelper::getPagination($users)
+            'pagination' => PaginationHelper::getPagination($users),
         ];
     }
 

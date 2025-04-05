@@ -9,9 +9,8 @@ use App\Models\User;
 use App\Repositories\V1\RoleRepository;
 use App\Repositories\V1\UserRepository;
 use App\Repositories\V1\WalletRepository;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Throwable;
+use Illuminate\Support\Facades\DB;
 
 readonly class UserService
 {
@@ -34,6 +33,7 @@ readonly class UserService
             $data = UserMapper::toArrayFromDto($dto);
             $user = $this->userRepository->create($data);
             $this->walletRepository->createDefaultWallet(WalletMapper::toArrayForStore($user->id));
+
             return $user->load('wallet');
         });
 

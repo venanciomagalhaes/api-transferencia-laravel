@@ -34,17 +34,15 @@ class RolePermissionSeeder extends Seeder
 
     }
 
-
     protected function createCustomerRole(): Role
     {
         return Role::firstOrCreate(
             ['name' => RolesEnum::CUSTOMER->value],
             [
                 'uuid' => UuidHelper::generate(),
-                'name' => RolesEnum::CUSTOMER->value
+                'name' => RolesEnum::CUSTOMER->value,
             ]);
     }
-
 
     protected function createTransferPermission(): Permission
     {
@@ -53,10 +51,9 @@ class RolePermissionSeeder extends Seeder
         ], [
             'uuid' => UuidHelper::generate(),
             'name' => PermissionsEnum::MAKE_A_TRANSFER->value,
-            'description' => 'Allows the user to make a transfer'
+            'description' => 'Allows the user to make a transfer',
         ]);
     }
-
 
     protected function createReceiveTransferPermission(): Permission
     {
@@ -65,10 +62,9 @@ class RolePermissionSeeder extends Seeder
         ], [
             'uuid' => UuidHelper::generate(),
             'name' => PermissionsEnum::RECEIVE_A_TRANSFER->value,
-            'description' => 'Allows the user to receive a transfer'
+            'description' => 'Allows the user to receive a transfer',
         ]);
     }
-
 
     protected function createMerchantRole(): Role
     {
@@ -76,7 +72,7 @@ class RolePermissionSeeder extends Seeder
             ['name' => RolesEnum::MERCHANT->value],
             [
                 'uuid' => UuidHelper::generate(),
-                'name' => RolesEnum::MERCHANT->value
+                'name' => RolesEnum::MERCHANT->value,
             ]);
     }
 
@@ -84,11 +80,10 @@ class RolePermissionSeeder extends Seeder
         Role $customerRole,
         Permission $makeATransferPermission,
         Permission $receiveATransferPermission
-    ): void
-    {
+    ): void {
         $customerRole->permissions()->syncWithoutDetaching([
             $makeATransferPermission->id => ['uuid' => UuidHelper::generate()],
-            $receiveATransferPermission->id => ['uuid' => UuidHelper::generate()]
+            $receiveATransferPermission->id => ['uuid' => UuidHelper::generate()],
         ]);
     }
 
@@ -97,7 +92,7 @@ class RolePermissionSeeder extends Seeder
         Permission $receiveATransferPermission): void
     {
         $merchantRole->permissions()->syncWithoutDetaching([
-            $receiveATransferPermission->id => ['uuid' => UuidHelper::generate()]
+            $receiveATransferPermission->id => ['uuid' => UuidHelper::generate()],
         ]);
     }
 }

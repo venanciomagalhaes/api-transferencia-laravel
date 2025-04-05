@@ -5,8 +5,8 @@ namespace App\Http\Requests\V1\User;
 use App\Enums\RolesEnum;
 use App\Rules\CpfCnpj;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class UserStoreRequest extends FormRequest
 {
@@ -33,7 +33,7 @@ class UserStoreRequest extends FormRequest
                 Rule::in([
                     RolesEnum::CUSTOMER->value,
                     RolesEnum::MERCHANT->value,
-                ])
+                ]),
             ],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'cpf_cnpj' => [
@@ -41,7 +41,7 @@ class UserStoreRequest extends FormRequest
                 'string',
                 'min:11',
                 'max:14',
-                new CpfCnpj(),
+                new CpfCnpj,
                 'unique:users,cpf_cnpj',
             ],
             'password' => [
@@ -49,10 +49,10 @@ class UserStoreRequest extends FormRequest
                 'string',
                 'max:50',
                 Password::min(8)
-                ->letters()
-                ->mixedCase()
-                ->numbers()
-                ->symbols(),
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
                 'confirmed'],
         ];
     }

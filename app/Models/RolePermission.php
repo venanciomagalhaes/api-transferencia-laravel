@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RolePermission extends Model
 {
     protected $table = 'role_permission';
+
     protected $fillable = [
         'uuid',
         'role_id',
