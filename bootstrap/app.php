@@ -1,6 +1,6 @@
 <?php
 
-use App\Exceptions\Handler;
+use App\Exceptions\HandlerException;
 use Illuminate\Container\Container;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,5 +18,5 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-      (new Handler(new Container()))->register();
+
     })->create();
