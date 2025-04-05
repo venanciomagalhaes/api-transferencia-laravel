@@ -9,7 +9,7 @@ API desenvolvida com Laravel, Docker, Redis, MySQL e testada com PestPHP. Simula
 
 - Docker e Docker Compose  
   👉 Instale seguindo este tutorial:  
-  [https://www.nerdlivre.com.br/instalando-docker-e-docker-compose-no-ubuntu-24-04/](https://www.nerdlivre.com.br/instalando-docker-e-docker-compose-no-ubuntu-24-04/)
+  [https://www.nerdlivre.com.br/instalando-docker-e-docker compose-no-ubuntu-24-04/](https://www.nerdlivre.com.br/instalando-docker-e-docker compose-no-ubuntu-24-04/)
 
 ---
 
@@ -47,10 +47,11 @@ REDIS_PASSWORD=null
 REDIS_PORT=6379
 ```
 
-Suba os containers com Docker Compose:
+Crie as imagens e suba os containers com Docker Compose:
 
 ```bash
-docker-compose up -d
+docker compose build
+docker compose up -d
 ```
 
 A aplicação rodará no endereço http://localhost:8989
@@ -62,7 +63,7 @@ A aplicação rodará no endereço http://localhost:8989
 Entre no container da aplicação:
 
 ```bash
-docker-compose exec app bash
+docker compose exec app bash
 ```
 
 Instale as dependências:
@@ -83,11 +84,6 @@ Ajuste permissões para evitar erros de cache/log:
 chmod 777 -R .
 ```
 
-Limpe e otimize cache:
-
-```bash
-php artisan optimize:clear
-```
 
 Rode as migrações:
 
