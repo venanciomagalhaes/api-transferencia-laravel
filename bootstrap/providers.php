@@ -1,5 +1,13 @@
 <?php
 
+use App\Modules\Common\V1\Providers\AppServiceProvider;
+use App\Modules\Common\V1\Providers\EventServiceProvider;
+use App\Modules\Wallet\V1\Providers\WalletModuleProvider;
+use App\Modules\User\V1\Providers\UserModuleProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
+    AppServiceProvider::class,
+    EventServiceProvider::class,
+    UserModuleProvider::class,
+    WalletModuleProvider::class,
 ];

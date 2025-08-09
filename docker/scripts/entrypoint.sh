@@ -30,7 +30,7 @@ if ! npm run build; then
 fi
 
 echo "Rodando migrações..."
-if ! php artisan migrate; then
+if ! php artisan migrate --seed; then
   echo "❌ Migrações falharam"
   exit 1
 fi
