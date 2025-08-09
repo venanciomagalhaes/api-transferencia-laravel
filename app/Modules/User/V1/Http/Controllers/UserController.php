@@ -55,16 +55,25 @@ class UserController extends Controller
      *         response=201,
      *         description="User created successfully",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="User created successfully"),
+     *             @OA\Property(property="message", type="string", example="User created successfully."),
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                 @OA\Property(property="uuid", type="string", format="uuid", example="e1234567-e89b-12d3-a456-426614174000"),
-     *                 @OA\Property(property="name", type="string", example="João Silva"),
+     *                 @OA\Property(property="uuid", type="string", format="uuid", example="0af3db3a-3cfc-447b-95c1-1c1466e94c71"),
+     *                 @OA\Property(property="name", type="string", example="Deividson Venancio Magalhaes"),
      *                 @OA\Property(property="type", type="string", example="common"),
-     *                 @OA\Property(property="document", type="string", example="41590444094"),
-     *                 @OA\Property(property="email", type="string", example="joao@example.com"),
-     *                 @OA\Property(property="amount", type="string", example="1000.00")
+     *                 @OA\Property(property="document", type="string", example="02215725621"),
+     *                 @OA\Property(property="email", type="string", example="venanciomagalhsaesd@gmail.com"),
+     *                 @OA\Property(property="amount", type="string", example="1000.00"),
+     *                 @OA\Property(
+     *                     property="permissions",
+     *                     type="array",
+     *                     @OA\Items(
+     *                         type="object",
+     *                         @OA\Property(property="name", type="string", example="send_transaction"),
+     *                         @OA\Property(property="description", type="string", nullable=true, example="Permission to send transactions")
+     *                     )
+     *                 )
      *             )
      *         )
      *     ),

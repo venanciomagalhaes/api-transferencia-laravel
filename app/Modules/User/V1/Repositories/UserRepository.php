@@ -23,7 +23,7 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $data): User
     {
         $user = $this->model->create($data);
-        return $user->load('type');
+        return $user->load('type.permissions');
     }
 
 }

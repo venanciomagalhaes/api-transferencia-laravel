@@ -2,6 +2,7 @@
 
 namespace App\Modules\User\V1\Http\Resources;
 
+use App\Modules\Permissions\V1\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +22,12 @@ class UserStoreResource extends JsonResource
             'document' => $this->cpf_cnpj,
             'email' => $this->email,
             'amount' => $this->wallet->amount,
+            'permissions' => $this->type?->permissions->map(function (Permission $permission) {
+                return [
+                    'name' => $permission->name,
+                    'description' => $permission?->description
+                ];
+            })->toArray(),
         ];
     }
 }

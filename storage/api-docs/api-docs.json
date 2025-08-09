@@ -69,18 +69,18 @@
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "User created successfully"
+                                            "example": "User created successfully."
                                         },
                                         "data": {
                                             "properties": {
                                                 "uuid": {
                                                     "type": "string",
                                                     "format": "uuid",
-                                                    "example": "e1234567-e89b-12d3-a456-426614174000"
+                                                    "example": "0af3db3a-3cfc-447b-95c1-1c1466e94c71"
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "João Silva"
+                                                    "example": "Deividson Venancio Magalhaes"
                                                 },
                                                 "type": {
                                                     "type": "string",
@@ -88,15 +88,32 @@
                                                 },
                                                 "document": {
                                                     "type": "string",
-                                                    "example": "41590444094"
+                                                    "example": "02215725621"
                                                 },
                                                 "email": {
                                                     "type": "string",
-                                                    "example": "joao@example.com"
+                                                    "example": "venanciomagalhsaesd@gmail.com"
                                                 },
                                                 "amount": {
                                                     "type": "string",
                                                     "example": "1000.00"
+                                                },
+                                                "permissions": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "send_transaction"
+                                                            },
+                                                            "description": {
+                                                                "type": "string",
+                                                                "example": "Permission to send transactions",
+                                                                "nullable": true
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
