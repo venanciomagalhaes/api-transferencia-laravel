@@ -4,7 +4,6 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-
         volumes:
             - ./:/var/www/html
             - ./docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
@@ -12,6 +11,8 @@ services:
             - desafio-api-transferencia-simplificada
         depends_on:
             mysql:
+                condition: service_healthy
+            mysql-test:
                 condition: service_healthy
             redis:
                 condition: service_healthy
