@@ -2,14 +2,18 @@
 
 namespace App\Modules\User\V1\Services;
 
+/**
+ * Serviço responsável pela validação de documentos brasileiros: CPF e CNPJ.
+ */
 class CpfCnpjValidationService
 {
-
     /**
-     * Checks if the provided document is a valid CPF.
+     * Verifica se o documento informado é um CPF válido.
      *
-     * @param string $document The document string to check.
-     * @return bool True if valid CPF, false otherwise.
+     * Remove qualquer caractere não numérico antes da validação.
+     *
+     * @param string $document Documento a ser validado.
+     * @return bool Retorna true se for um CPF válido, false caso contrário.
      */
     public function isCpf(string $document): bool
     {
@@ -18,10 +22,12 @@ class CpfCnpjValidationService
     }
 
     /**
-     * Checks if the provided document is a valid CNPJ.
+     * Verifica se o documento informado é um CNPJ válido.
      *
-     * @param string $document The document string to check.
-     * @return bool True if valid CNPJ, false otherwise.
+     * Remove qualquer caractere não numérico antes da validação.
+     *
+     * @param string $document Documento a ser validado.
+     * @return bool Retorna true se for um CNPJ válido, false caso contrário.
      */
     public function isCnpj(string $document): bool
     {
@@ -30,10 +36,13 @@ class CpfCnpjValidationService
     }
 
     /**
-     * Validates a CPF number.
+     * Valida um número de CPF.
      *
-     * @param string $cpf CPF number containing only digits.
-     * @return bool True if valid, false otherwise.
+     * O CPF deve conter exatamente 11 dígitos e não pode ser uma sequência repetida (ex: 111.111.111-11).
+     * A validação é feita com base nos dois dígitos verificadores finais.
+     *
+     * @param string $cpf Número do CPF contendo apenas dígitos.
+     * @return bool Retorna true se o CPF for válido, false caso contrário.
      */
     public function isValidCpf(string $cpf): bool
     {
@@ -58,16 +67,13 @@ class CpfCnpjValidationService
     }
 
     /**
-     * Validates a CNPJ number.
+     * Valida um número de CNPJ.
      *
-     * @param string $cnpj CNPJ number containing only digits.
-     * @return bool True if valid, false otherwise.
-     */
-    /**
-     * Validates a CNPJ number.
+     * O CNPJ deve conter exatamente 14 dígitos e não pode ser uma sequência repetida (ex: 00.000.000/0000-00).
+     * A validação é feita com base nos dois dígitos verificadores finais.
      *
-     * @param string $cnpj CNPJ number containing only digits.
-     * @return bool True if valid, false otherwise.
+     * @param string $cnpj Número do CNPJ contendo apenas dígitos.
+     * @return bool Retorna true se o CNPJ for válido, false caso contrário.
      */
     public function isValidCnpj(string $cnpj): bool
     {
@@ -99,6 +105,4 @@ class CpfCnpjValidationService
 
         return ($cnpj[12] == $digit1 && $cnpj[13] == $digit2);
     }
-
-
 }
