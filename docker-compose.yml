@@ -53,6 +53,29 @@ services:
             retries: 5
             start_period: 20s
 
+    mysql-test:
+        restart: always
+        image: mysql:8.0
+        volumes:
+            - mysql_data_test:/var/lib/mysql
+        env_file:
+            - .env
+        environment:
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            MYSQL_DATABASE: "${DB_DATABASE}"
+            MYSQL_USER: "${DB_USERNAME}"
+            MYSQL_PASSWORD: "${DB_PASSWORD}"
+        ports:
+            - "3324:3306"
+        networks:
+            - desafio-api-transferencia-simplificada
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_PASSWORD}" ]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 20s
+
     redis:
         image: redis:7.2-alpine
         restart: always
@@ -112,6 +135,7 @@ services:
 
 volumes:
     mysql_data:
+    mysql_data_test:
     redis_data:
 
 networks:
