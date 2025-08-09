@@ -43,5 +43,7 @@ php artisan optimize:clear
 chown -R www-data:www-data storage bootstrap/cache
 chmod -R 777 storage bootstrap/cache
 
+php artisan test
+
 echo "✅ Pronto. Iniciando o PHP-FPM..."
 exec php-fpm
