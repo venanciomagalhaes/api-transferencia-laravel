@@ -16,6 +16,7 @@ use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use App\Modules\Transaction\V1\Http\Dtos\TransferDto;
 use App\Modules\User\V1\Models\User;
 use App\Modules\User\V1\Repositories\UserRepositoryInterface;
+use App\Modules\Wallet\V1\Repositories\TransactionHistoryRepositoryInterface;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
 
 /**
@@ -45,8 +46,9 @@ readonly class TransferAction
      * - Verifica se o pagador possui saldo suficiente.
      * - Consulta serviço externo para autorização da transferência.
      * - Realiza a transferência na carteira dos usuários.
-     * - Dispara evento assíncrono TransferSuccessfullyEvent, que trata o envio de mensagens
-     *   de forma assíncrona com retentativas em caso de falha.
+     * - Dispara evento TransferSuccessfullyEvent, que trata o envio de mensagens
+     *   de forma assíncrona com re-tentativas em caso de falha e que cria, de forma sincrona, o historico
+     *   de transação entre as carteiras.
      *
      * @param  TransferDto  $dto  Dados da transferência.
      */
@@ -72,7 +74,7 @@ readonly class TransferAction
 
             $this->logger->info('Transfer completed successfully.');
 
-            event(new TransferSuccessfullyEvent($payee, $dto->getAmount()));
+            event(new TransferSuccessfullyEvent(payee: $payee,amount:  $dto->getAmount(), payer: $payer));
         });
     }
 

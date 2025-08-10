@@ -15,9 +15,24 @@ class TransferSuccessfullyEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(User $payee, float $amount)
+    public function __construct(private readonly User $payee, private readonly float $amount, private readonly User $payer)
     {
         //
+    }
+
+    public function getPayee(): User
+    {
+        return $this->payee;
+    }
+
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    public function getPayer(): User
+    {
+        return $this->payer;
     }
 
     /**
