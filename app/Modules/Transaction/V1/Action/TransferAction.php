@@ -3,6 +3,7 @@
 namespace App\Modules\Transaction\V1\Action;
 
 use App\Modules\Common\V1\Services\Http\HttpServiceInterface;
+use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\Common\V1\Services\Transaction\TransactionServiceInterface;
 use App\Modules\Permissions\V1\Enums\PermissionsNameEnum;
 use App\Modules\Transaction\V1\Events\TransferSuccessfullyEvent;
@@ -16,7 +17,6 @@ use App\Modules\Transaction\V1\Http\Dtos\TransferDto;
 use App\Modules\User\V1\Models\User;
 use App\Modules\User\V1\Repositories\UserRepositoryInterface;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Classe responsável por executar a ação de transferência entre usuários,
@@ -30,7 +30,7 @@ readonly class TransferAction
         private HttpServiceInterface $httpService,
         private TransactionServiceInterface $transactionService,
         private WalletRepositoryInterface $walletRepository,
-        private LoggerInterface $logger,
+        private LoggerServiceInterface $logger,
     ) {}
 
     /**

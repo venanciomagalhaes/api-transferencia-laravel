@@ -2,10 +2,11 @@
 
 namespace App\Modules\Wallet\V1\Listeners;
 
+use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\User\V1\Events\UserCreated;
 use App\Modules\Wallet\V1\Mappers\WalletMapper;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
-use Psr\Log\LoggerInterface;
+
 
 class CreateWalletForUser
 {
@@ -15,7 +16,7 @@ class CreateWalletForUser
     public function __construct(
         private WalletRepositoryInterface $walletRepository,
         private WalletMapper $walletMapper,
-        private LoggerInterface $logger
+        private LoggerServiceInterface $logger
     ) {
         //
     }

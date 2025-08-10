@@ -3,10 +3,10 @@
 namespace App\Modules\Transaction\V1\Listeners;
 
 use App\Modules\Common\V1\Services\Http\HttpServiceInterface;
+use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\Transaction\V1\Events\TransferSuccessfullyEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Psr\Log\LoggerInterface;
 
 class SendTransferSuccessfullyNotification implements ShouldQueue
 {
@@ -18,7 +18,7 @@ class SendTransferSuccessfullyNotification implements ShouldQueue
 
     public function __construct(
         private readonly HttpServiceInterface $httpService,
-        private readonly LoggerInterface $logger
+        private readonly LoggerServiceInterface $logger
     ) {}
 
     public function handle(TransferSuccessfullyEvent $event): void

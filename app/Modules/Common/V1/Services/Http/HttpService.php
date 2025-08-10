@@ -2,11 +2,11 @@
 
 namespace App\Modules\Common\V1\Services\Http;
 
+use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -31,7 +31,7 @@ class HttpService implements HttpServiceInterface
     protected int $retryDelayMs = 100;
 
     public function __construct(
-        private readonly LoggerInterface $logger
+        private readonly LoggerServiceInterface $logger
     ) {}
 
     /**
