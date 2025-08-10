@@ -1,61 +1,118 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+# DETALHAMENTO TÉCNICO
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Arquitetura do sistema
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+O sistema foi desenvolvido com base na arquitetura de monólito modular orientada a eventos, onde cada módulo possui responsabilidade bem definida e se comunica com os demais módulos quando necessário. Essa comunicação ocorre por meio de eventos e listeners, que podem ser síncronos ou assíncronos, conforme o contexto.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+A API segue o padrão REST e possui dois endpoints principais: um para cadastro de usuários e outro para transferências. O endpoint de transferência utiliza o método POST e aceita um payload JSON conforme o contrato abaixo:
 
-## Learning Laravel
+```json  
+{  
+ "value": 100.0, "payer": "uuid-do-pagador", "payee": "uuid-do-recebedor"}  
+  
+```  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Para garantir segurança, o endpoint de transferência foi ajustado para receber os UUIDs dos usuários pagador (payer) e recebedor (payee).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Todos os endpoints são documentados utilizando OpenAPI, e a documentação estará disponível em:    
+`http://localhost:6789/api/documentation#`
+  
+----
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Cache
+Foi implementado um sistema de cache com Redis, aplicado especificamente no repositório `UserTypeRepository`, considerando a simplicidade da aplicação.
+___  
 
-## Laravel Sponsors
+## Testes e qualidade
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Foram implementados 52 testes, entre unitários e de integração (features), totalizando 166 assertions, garantindo cobertura consistente e confiável das funcionalidades.
 
-### Premium Partners
+Para análise estática e padronização do código, foi utilizado o Laravel Pint, garantindo aderência às PSRs e boas práticas.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Para executar os testes, basta dentro do container da aplicação executar o comando
 
-## Contributing
+```php
+php artisan test
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Banco de dados
 
-## Code of Conduct
+O modelo de dados foi estruturado para refletir os tipos de usuário, suas carteiras e transações, garantindo integridade e performance.  
+![img.png](img.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Tratamento de erros
 
-## Security Vulnerabilities
+O tratamento de erros é centralizado no `AppExceptionHandler`, que captura e formata exceções específicas de regras de negócio, garantindo respostas HTTP apropriadas e claras para o cliente.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Desacoplamento e arquitetura limpa
 
-## License
+Os componentes foram desacoplados via interfaces, facilitando manutenção, testes e evolução. Exemplos incluem serviços de cache (`CacheService`), HTTP (`HttpService`), logging (`LoggerService`) e transações (`TransactionService`).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Ambiente e orquestração
+
+A aplicação é containerizada utilizando Docker e Docker Compose para facilitar o ambiente de desenvolvimento e implantação, alinhando-se às melhores práticas modernas.
+
+
+
+## Tratamento de erros
+O tratamento de erros é centralizado no AppExceptionHandler, que captura e formata exceções específicas de regras de negócio, garantindo respostas HTTP apropriadas e claras para o cliente.
+
+A versão implementada para o tratamento de erros é a versão reduzida apresentada nesse artigo autoral
+[Guia Prático: Implementando Chain of Responsibility para Exceções Modulares em Laravel APIs](https://medium.com/@dvenanciom/guia-pr%C3%A1tico-implementando-chain-of-responsibility-para-exce%C3%A7%C3%B5es-modulares-em-laravel-apis-61208f8c6ff4)
+
+## Desacoplamento e arquitetura limpa
+Os componentes foram desacoplados via interfaces, facilitando manutenção, testes e evolução. Exemplos incluem serviços de cache (CacheService), HTTP (HttpService), logging (LoggerService) e transações (TransactionService).
+
+## Ambiente e orquestração
+A aplicação é containerizada utilizando Docker e Docker Compose para facilitar o ambiente de desenvolvimento e implantação, alinhando-se às melhores práticas modernas.  Além disso, a estrutura da orquestração foi detalhada no artigo autoral [Configurando um Ambiente Laravel com Docker: PHP 8.4, Node, NGINX, MySQL, Redis, Schedules e Jobs](https://medium.com/@dvenanciom/configurando-um-ambiente-laravel-com-docker-php-8-4-node-nginx-mysql-redis-schedules-e-jobs-18879888fa6b)
+  
+---  
+
+
+## Executando a aplicação
+
+### 🐳 Requisitos
+
+-   Docker e Docker Compose  
+    👉 Instale seguindo este tutorial, se precisar: [Instalando Docker e Docker Compose no Ubuntu 24.04](https://www.nerdlivre.com.br/instalando-docker-e-docker-compose-no-ubuntu-24-04/)
+
+
+
+### 🚀 Subindo o projeto
+
+1.  Clone o projeto e entre na pasta:
+
+
+```bash
+git clone https://github.com/venanciomagalhaes/api-transferencia-laravel.git
+cd api-transferencia-laravel
+```
+
+2.  Copie os arquivos de ambiente:
+
+
+```bash
+cp .env.example .env
+cp .env.example.testing .env.testing
+```
+
+3.  Construa e suba os containers Docker em modo destacado:
+
+
+```bash
+docker compose up -d --build
+```
+
+4. Para remover a aplicação, use
+```bash
+docker compose down -v
+```
+
+Pronto! Agora a aplicação está rodando em Docker e pronta para uso.
+
+Link da documentação: http://localhost:6789/api/documentation#
+
+Link da aplicação: http://localhost:6789
+
