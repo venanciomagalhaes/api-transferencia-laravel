@@ -143,13 +143,13 @@ readonly class UserStoreAction
      */
     public function setUserType(UserStoreDto $dto): void
     {
-        $document = $dto->getDocument();
+        $document = preg_replace('/\D/', '', $dto->getDocument());
 
-        if ($this->cpfCnpjValidationService->isCpf($document)) {
-            $userType = $this->userTypeRepository->getUserTypeByName(UserTypeNameEnum::COMMON);
-            $this->loggerService->info('User type set to COMMON based on CPF.');
-            $dto->setUserType($userType->id);
-            return;
+        if(strlen($document) == 11 && $this->cpfCnpjValidationService->isCpf($document)) {
+                $userType = $this->userTypeRepository->getUserTypeByName(UserTypeNameEnum::COMMON);
+                $this->loggerService->info('User type set to COMMON based on CPF.');
+                $dto->setUserType($userType->id);
+                return;
         }
 
         if ($this->cpfCnpjValidationService->isCnpj($document)) {

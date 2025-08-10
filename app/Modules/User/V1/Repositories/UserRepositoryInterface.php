@@ -9,4 +9,6 @@ interface UserRepositoryInterface
     public function getUserByDocumentOrEmail(string $document, string $email): ?User;
 
     public function create(array $data): User;
+
+    public function findByUuid(string $uuid): User;
 }

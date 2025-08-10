@@ -2,6 +2,8 @@
 
 namespace App\Modules\Common\V1\Providers;
 
+use App\Modules\Transaction\V1\Events\TransferSuccessfullyEvent;
+use App\Modules\Transaction\V1\Listeners\SendTransferSuccessfullyNotification;
 use App\Modules\Wallet\V1\Listeners\CreateWalletForUser;
 use App\Modules\User\V1\Events\UserCreated;
 use Illuminate\Support\Facades\Event;
@@ -25,5 +27,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Event::listen(UserCreated::class, CreateWalletForUser::class);
+        Event::listen(TransferSuccessfullyEvent::class, SendTransferSuccessfullyNotification::class);
     }
 }

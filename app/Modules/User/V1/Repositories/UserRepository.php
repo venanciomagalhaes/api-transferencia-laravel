@@ -26,4 +26,9 @@ class UserRepository implements UserRepositoryInterface
         return $user->load('type.permissions');
     }
 
+    public function findByUuid(string $uuid): User
+    {
+        $user = $this->model->where('uuid', $uuid)->firstOrFail();
+        return $user->load(['type.permissions', 'wallet']);
+    }
 }

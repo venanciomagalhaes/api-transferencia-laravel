@@ -2,6 +2,7 @@
 
 namespace App\Modules\User\V1\Models;
 
+use App\Modules\Permissions\V1\Enums\PermissionsNameEnum;
 use App\Modules\Permissions\V1\Models\Permission;
 use App\Modules\Permissions\V1\Models\UserTypePermission;
 use App\Modules\Wallet\V1\Models\Wallet;
@@ -47,5 +48,13 @@ class User extends Authenticatable
     public function wallet(): HasOne
     {
         return $this->hasOne(Wallet::class, 'user_id', 'id');
+    }
+
+    public function hasPermission(PermissionsNameEnum $permissionsName): bool
+    {
+        return $this->type
+            && $this->type->permissions()
+                ->where('name', $permissionsName->value)
+                ->exists();
     }
 }
