@@ -7,7 +7,6 @@ use App\Modules\User\V1\Events\UserCreated;
 use App\Modules\Wallet\V1\Mappers\WalletMapper;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
 
-
 class CreateWalletForUser
 {
     /**

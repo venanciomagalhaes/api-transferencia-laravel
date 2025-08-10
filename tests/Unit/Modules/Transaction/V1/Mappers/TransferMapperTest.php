@@ -13,7 +13,7 @@ it('deve mapear TransferRequest para TransferDto', function () {
     $request->shouldReceive('input')->with('payee')->andReturn('payee-uuid-456');
     $request->shouldReceive('input')->with('value')->andReturn(150.25);
 
-    $mapper = new TransferMapper();
+    $mapper = new TransferMapper;
     $dto = $mapper->fromRequestToDto($request);
 
     expect($dto)->toBeInstanceOf(TransferDto::class)
@@ -23,7 +23,7 @@ it('deve mapear TransferRequest para TransferDto', function () {
 });
 
 it('deve retornar a resposta esperada do recurso', function () {
-    $mapper = new TransferMapper();
+    $mapper = new TransferMapper;
     $response = $mapper->getResourceResponse();
 
     expect($response)->toBeArray()

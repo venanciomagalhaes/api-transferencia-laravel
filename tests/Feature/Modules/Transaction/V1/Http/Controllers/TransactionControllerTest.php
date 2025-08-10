@@ -8,34 +8,33 @@ use Symfony\Component\HttpFoundation\Response;
 
 $endpoint = '/api/v1/transfer';
 
-
 beforeEach(function () {
     $endpointUser = '/api/v1/auth/user';
 
     $password = Str::password();
 
     $usuarioCommon1 = [
-        "name" => "Lucas Silva Pereira",
-        "document" => "98765432100",
-        "email" => "lucas.silva@example.com",
-        "password" => $password,
-        "password_confirmation" => $password,
+        'name' => 'Lucas Silva Pereira',
+        'document' => '98765432100',
+        'email' => 'lucas.silva@example.com',
+        'password' => $password,
+        'password_confirmation' => $password,
     ];
 
     $usuarioPJ = [
-        "name" => "Tech Solutions S.A.",
-        "document" => "11222333000181",
-        "email" => "contato@techsolutions.com.br",
-        "password" => $password,
-        "password_confirmation" => $password,
+        'name' => 'Tech Solutions S.A.',
+        'document' => '11222333000181',
+        'email' => 'contato@techsolutions.com.br',
+        'password' => $password,
+        'password_confirmation' => $password,
     ];
 
     $usuarioCommon2 = [
-        "name" => "Mariana Costa Oliveira",
-        "document" => "12345678909",
-        "email" => "mariana.costa@example.com",
-        "password" => $password,
-        "password_confirmation" => $password,
+        'name' => 'Mariana Costa Oliveira',
+        'document' => '12345678909',
+        'email' => 'mariana.costa@example.com',
+        'password' => $password,
+        'password_confirmation' => $password,
     ];
 
     $usuarioCommon1Response = $this->postJson($endpointUser, $usuarioCommon1);
@@ -51,7 +50,6 @@ beforeEach(function () {
     $this->uuidUsuarioPj = $usuarioPjResponse->json('data')['uuid'];
 });
 
-
 test('Espero que o payer e payee somente aceitem uuid existentes', function () use ($endpoint) {
     $response = $this->postJson($endpoint, [
         'payer' => Str::uuid()->toString(),
@@ -61,7 +59,6 @@ test('Espero que o payer e payee somente aceitem uuid existentes', function () u
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 });
-
 
 test('Espero que o valor da transação precise ser maior que zero', function () use ($endpoint) {
     $response = $this->postJson($endpoint, [
@@ -73,7 +70,6 @@ test('Espero que o valor da transação precise ser maior que zero', function ()
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 });
 
-
 test('Espero que o payee e payer precisem ser pessoas diferentes', function () use ($endpoint) {
     $response = $this->postJson($endpoint, [
         'payer' => $this->uuidUsuarioCommon2,
@@ -83,7 +79,6 @@ test('Espero que o payee e payer precisem ser pessoas diferentes', function () u
 
     $response->assertStatus(Response::HTTP_BAD_REQUEST);
 });
-
 
 test('Espero que o somente o usuário common possa transferir', function () use ($endpoint) {
     $response = $this->postJson($endpoint, [
@@ -95,21 +90,19 @@ test('Espero que o somente o usuário common possa transferir', function () use 
     $response->assertStatus(Response::HTTP_UNAUTHORIZED);
 });
 
-
 test('Espero que o usuário common possa transferir para outro common e para merchant', function () use ($endpoint) {
 
     Http::fake([
         env('AUTHORIZE_TRANSACTION_ENDPOINT_URL') => Http::response([
             'status' => true,
-            'data' => ['authorization' => true]
+            'data' => ['authorization' => true],
         ], 200)]);
 
     Http::fake([
         env('NOTIFICATION_SERVICE_ENDPOINT_URL') => Http::response([
             'status' => true,
-            'data' => ['authorization' => true]
+            'data' => ['authorization' => true],
         ], 200)]);
-
 
     $response = $this->postJson($endpoint, [
         'payer' => $this->uuidUsuarioCommon1,
@@ -128,19 +121,18 @@ test('Espero que o usuário common possa transferir para outro common e para mer
     $response->assertStatus(Response::HTTP_OK);
 });
 
-
 test('Espero que o payer precise ter saldo suficiente', function () use ($endpoint) {
 
     Http::fake([
         env('AUTHORIZE_TRANSACTION_ENDPOINT_URL') => Http::response([
             'status' => true,
-            'data' => ['authorization' => true]
+            'data' => ['authorization' => true],
         ], 200)]);
 
     Http::fake([
         env('NOTIFICATION_SERVICE_ENDPOINT_URL') => Http::response([
             'status' => true,
-            'data' => ['authorization' => true]
+            'data' => ['authorization' => true],
         ], 200)]);
 
     $response = $this->postJson($endpoint, [
@@ -154,17 +146,16 @@ test('Espero que o payer precise ter saldo suficiente', function () use ($endpoi
 
 test('Espero que falta de autorização impeça a transferência', function () use ($endpoint) {
 
-
     Http::fake([
         env('NOTIFICATION_SERVICE_ENDPOINT_URL') => Http::response([
             'status' => true,
-            'data' => ['authorization' => true]
+            'data' => ['authorization' => true],
         ], 200)]);
 
     Http::fake([
         env('AUTHORIZE_TRANSACTION_ENDPOINT_URL') => Http::response([
             'status' => false,
-            'data' => ['authorization' => false]
+            'data' => ['authorization' => false],
         ], 200)]);
 
     $response = $this->postJson($endpoint, [

@@ -4,8 +4,8 @@ namespace Tests\Unit\Modules\Wallet\V1\Mappers;
 
 use App\Modules\User\V1\Events\UserCreated;
 use App\Modules\User\V1\Models\User;
-use App\Modules\Wallet\V1\Mappers\WalletMapper;
 use App\Modules\Wallet\V1\Dtos\WalletStoreDto;
+use App\Modules\Wallet\V1\Mappers\WalletMapper;
 use Mockery;
 use Ramsey\Uuid\Uuid;
 
@@ -18,7 +18,7 @@ it('deve mapear o evento UserCreated para WalletStoreDto', function () {
         amount: 1000
     );
 
-    $mapper = new WalletMapper();
+    $mapper = new WalletMapper;
     $dto = $mapper->fromEventToDto($event);
 
     expect($dto)->toBeInstanceOf(WalletStoreDto::class)
@@ -32,7 +32,7 @@ it('deve mapear o WalletStoreDto para um array de persistência', function () {
         amount: 1000
     );
 
-    $mapper = new WalletMapper();
+    $mapper = new WalletMapper;
     $data = $mapper->fromDtoToPersistency($dto);
 
     expect($data)->toHaveKeys(['uuid', 'user_id', 'amount'])

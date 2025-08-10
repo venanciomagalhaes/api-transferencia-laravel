@@ -6,7 +6,7 @@ use App\Modules\Transaction\V1\Exceptions\DoesNotHavePermissionToReceiveTransact
 use Symfony\Component\HttpFoundation\Response;
 
 it('deve instanciar a exceção com mensagem e código padrão', function () {
-    $exception = new DoesNotHavePermissionToReceiveTransactionException();
+    $exception = new DoesNotHavePermissionToReceiveTransactionException;
 
     expect($exception)->toBeInstanceOf(DoesNotHavePermissionToReceiveTransactionException::class)
         ->and($exception->getMessage())->toBe('This user type does not have permission to receive transactions.')

@@ -42,9 +42,8 @@ class UserRepository implements UserRepositoryInterface
                 'type.permissions',
                 'wallet' => function ($query) {
                     $query->lockForUpdate();
-                }
+                },
             ])
             ->firstOrFail();
     }
-
 }

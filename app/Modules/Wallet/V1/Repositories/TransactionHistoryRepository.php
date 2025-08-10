@@ -8,12 +8,10 @@ class TransactionHistoryRepository implements TransactionHistoryRepositoryInterf
 {
     public function __construct(
         private TransactionHistory $model
-    )
-    {
-    }
+    ) {}
 
     public function create(array $data): TransactionHistory
     {
-        return  $this->model->create($data);
+        return $this->model->create($data);
     }
 }

@@ -14,7 +14,7 @@ class TransferHistoryMapper
             'uuid' => Uuid::uuid4()->toString(),
             'amount' => $dto->getAmount(),
             'payer_wallet_id' => $dto->getPayerId(),
-            'payee_wallet_id'=> $dto->getPayeeId(),
+            'payee_wallet_id' => $dto->getPayeeId(),
         ];
     }
 

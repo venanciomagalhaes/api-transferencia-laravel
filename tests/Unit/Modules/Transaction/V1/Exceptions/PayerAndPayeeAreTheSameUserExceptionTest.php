@@ -6,7 +6,7 @@ use App\Modules\Transaction\V1\Exceptions\PayerAndPayeeAreTheSameUserException;
 use Symfony\Component\HttpFoundation\Response;
 
 it('deve instanciar a exceção com mensagem e código padrão', function () {
-    $exception = new PayerAndPayeeAreTheSameUserException();
+    $exception = new PayerAndPayeeAreTheSameUserException;
 
     expect($exception)->toBeInstanceOf(PayerAndPayeeAreTheSameUserException::class)
         ->and($exception->getMessage())->toBe('The payer and payee are the same user')

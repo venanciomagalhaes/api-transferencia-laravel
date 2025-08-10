@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Modules\Wallet\V1\Mappers;
 
-use App\Modules\User\V1\Models\User;
-use App\Modules\Wallet\V1\Mappers\TransferHistoryMapper;
 use App\Modules\Transaction\V1\Events\TransferSuccessfullyEvent;
+use App\Modules\User\V1\Models\User;
 use App\Modules\Wallet\V1\Dtos\TransactionHistoryDto;
+use App\Modules\Wallet\V1\Mappers\TransferHistoryMapper;
 use Mockery;
 use Ramsey\Uuid\Uuid;
 
@@ -16,7 +16,7 @@ it('deve mapear TransactionHistoryDto para array de persistência', function () 
         amount: 2500
     );
 
-    $mapper = new TransferHistoryMapper();
+    $mapper = new TransferHistoryMapper;
     $data = $mapper->fromDtoToPersistency($dto);
 
     expect($data)
@@ -39,7 +39,7 @@ it('deve mapear TransferSuccessfullyEvent para TransactionHistoryDto', function 
     $event->shouldReceive('getPayee')->andReturn($payee);
     $event->shouldReceive('getAmount')->andReturn(1500);
 
-    $mapper = new TransferHistoryMapper();
+    $mapper = new TransferHistoryMapper;
     $dto = $mapper->fromEventToDto($event);
 
     expect($dto)

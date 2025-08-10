@@ -16,7 +16,6 @@ use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use App\Modules\Transaction\V1\Http\Dtos\TransferDto;
 use App\Modules\User\V1\Models\User;
 use App\Modules\User\V1\Repositories\UserRepositoryInterface;
-use App\Modules\Wallet\V1\Repositories\TransactionHistoryRepositoryInterface;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
 
 /**
@@ -74,7 +73,7 @@ readonly class TransferAction
 
             $this->logger->info('Transfer completed successfully.');
 
-            event(new TransferSuccessfullyEvent(payee: $payee,amount:  $dto->getAmount(), payer: $payer));
+            event(new TransferSuccessfullyEvent(payee: $payee, amount: $dto->getAmount(), payer: $payer));
         });
     }
 
@@ -202,7 +201,7 @@ readonly class TransferAction
 
         if (! $isAuthorized) {
             $this->logger->error('Transfer not authorized by external service.');
-            throw new UnauthorizedTransferException();
+            throw new UnauthorizedTransferException;
         }
 
         $this->logger->info('Transfer authorized by external service.');

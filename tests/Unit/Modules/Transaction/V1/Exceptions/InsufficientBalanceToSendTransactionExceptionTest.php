@@ -6,7 +6,7 @@ use App\Modules\Transaction\V1\Exceptions\InsufficientBalanceToSendTransactionEx
 use Symfony\Component\HttpFoundation\Response;
 
 it('deve instanciar a exceção com mensagem e código padrão', function () {
-    $exception = new InsufficientBalanceToSendTransactionException();
+    $exception = new InsufficientBalanceToSendTransactionException;
 
     expect($exception)->toBeInstanceOf(InsufficientBalanceToSendTransactionException::class)
         ->and($exception->getMessage())->toBe('The payer does not have enough balance to perform this transaction.')

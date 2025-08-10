@@ -6,7 +6,7 @@ use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use Symfony\Component\HttpFoundation\Response;
 
 it('deve instanciar a exceção com mensagem e código padrão', function () {
-    $exception = new UnauthorizedTransferException();
+    $exception = new UnauthorizedTransferException;
 
     expect($exception)->toBeInstanceOf(UnauthorizedTransferException::class)
         ->and($exception->getMessage())->toBe('This payer is not authorized to perform this transfer.')

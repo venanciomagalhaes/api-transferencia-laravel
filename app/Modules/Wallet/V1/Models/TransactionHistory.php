@@ -21,7 +21,6 @@ class TransactionHistory extends Model
         return $this->belongsTo(Wallet::class, 'payer_wallet_id', 'id');
     }
 
-
     public function payeeWallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class, 'payee_wallet_id', 'id');

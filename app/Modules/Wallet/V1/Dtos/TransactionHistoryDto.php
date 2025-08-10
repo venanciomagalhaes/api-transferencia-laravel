@@ -8,9 +8,7 @@ class TransactionHistoryDto
         private int $payerId,
         private int $payeeId,
         private int $amount,
-    )
-    {
-    }
+    ) {}
 
     public function getPayerId(): int
     {
@@ -26,6 +24,4 @@ class TransactionHistoryDto
     {
         return $this->amount;
     }
-
-
 }

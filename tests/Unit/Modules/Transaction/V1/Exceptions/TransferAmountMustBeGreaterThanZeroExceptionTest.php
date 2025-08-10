@@ -6,7 +6,7 @@ use App\Modules\Transaction\V1\Exceptions\TransferAmountMustBeGreaterThanZeroExc
 use Symfony\Component\HttpFoundation\Response;
 
 it('deve instanciar a exceção com mensagem e código padrão', function () {
-    $exception = new TransferAmountMustBeGreaterThanZeroException();
+    $exception = new TransferAmountMustBeGreaterThanZeroException;
 
     expect($exception)->toBeInstanceOf(TransferAmountMustBeGreaterThanZeroException::class)
         ->and($exception->getMessage())->toBe('Transfer amount must be greater than zero')
