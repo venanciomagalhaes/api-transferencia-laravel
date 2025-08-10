@@ -10,7 +10,9 @@ A API segue o padrão REST e possui dois endpoints principais: um para cadastro 
 
 ```json  
 {  
- "value": 100.0, "payer": "uuid-do-pagador", "payee": "uuid-do-recebedor"
+    "value": 100.0, 
+    "payer": "uuid-do-pagador", 
+    "payee": "uuid-do-recebedor"
 }  
 ```  
 
