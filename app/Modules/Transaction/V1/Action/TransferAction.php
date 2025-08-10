@@ -48,8 +48,7 @@ readonly class TransferAction
      * - Dispara evento assíncrono TransferSuccessfullyEvent, que trata o envio de mensagens
      *   de forma assíncrona com retentativas em caso de falha.
      *
-     * @param TransferDto $dto Dados da transferência.
-     * @return void
+     * @param  TransferDto  $dto  Dados da transferência.
      */
     public function handle(TransferDto $dto): void
     {
@@ -83,8 +82,6 @@ readonly class TransferAction
      * Caso contrário, registra erro e lança exceção.
      *
      * @throws TransferAmountMustBeGreaterThanZeroException
-     * @param TransferDto $dto
-     * @return void
      */
     private function validateAmount(TransferDto $dto): void
     {
@@ -100,8 +97,6 @@ readonly class TransferAction
      * Caso sejam iguais, registra erro e lança exceção.
      *
      * @throws PayerAndPayeeAreTheSameUserException
-     * @param TransferDto $dto
-     * @return void
      */
     private function validateDifferentUsers(TransferDto $dto): void
     {
@@ -114,7 +109,6 @@ readonly class TransferAction
     /**
      * Busca o usuário pagador pelo UUID informado no DTO.
      *
-     * @param TransferDto $dto
      * @return User Usuário pagador.
      */
     private function getPayer(TransferDto $dto): User
@@ -127,7 +121,6 @@ readonly class TransferAction
     /**
      * Busca o usuário recebedor pelo UUID informado no DTO.
      *
-     * @param TransferDto $dto
      * @return User Usuário recebedor.
      */
     private function getPayee(TransferDto $dto): User
@@ -143,8 +136,6 @@ readonly class TransferAction
      * Caso não possua, registra aviso e lança exceção.
      *
      * @throws DoesNotHavePermissionToSendTransactionException
-     * @param User $payer
-     * @return void
      */
     private function validatePayerPermission(User $payer): void
     {
@@ -163,8 +154,6 @@ readonly class TransferAction
      * Caso não possua, registra aviso e lança exceção.
      *
      * @throws DoesNotHavePermissionToReceiveTransactionException
-     * @param User $payee
-     * @return void
      */
     private function validatePayeePermission(User $payee): void
     {
@@ -183,9 +172,6 @@ readonly class TransferAction
      * Caso contrário, registra aviso e lança exceção.
      *
      * @throws InsufficientBalanceToSendTransactionException
-     * @param User $payer
-     * @param TransferDto $dto
-     * @return void
      */
     private function validateSufficientBalance(User $payer, TransferDto $dto): void
     {
@@ -202,7 +188,6 @@ readonly class TransferAction
      * Em caso de negação, registra erro e lança exceção.
      *
      * @throws UnauthorizedTransferException
-     * @return void
      */
     private function verifyAuthorization(): void
     {
