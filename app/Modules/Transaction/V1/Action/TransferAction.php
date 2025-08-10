@@ -202,7 +202,7 @@ readonly class TransferAction
 
         if (! $isAuthorized) {
             $this->logger->error('Transfer not authorized by external service.');
-            throw new UnauthorizedTransferException;
+            throw new UnauthorizedTransferException();
         }
 
         $this->logger->info('Transfer authorized by external service.');
