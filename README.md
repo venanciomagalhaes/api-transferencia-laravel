@@ -94,6 +94,15 @@ cp .env.example.testing .env.testing
 docker compose up -d --build
 ```
 
+Aguarde até que todos os containers estejam totalmente iniciados.
+
+Se preferir acompanhar o processo de criação e inicialização dos containers em tempo real,
+sem executá-los em segundo plano, utilize o comando:
+
+```bash
+docker compose up --build
+```
+
 4. Para remover a aplicação, use
 5. 
 ```bash
