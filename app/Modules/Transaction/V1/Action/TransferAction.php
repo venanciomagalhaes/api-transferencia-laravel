@@ -119,7 +119,7 @@ readonly class TransferAction
     }
 
     /**
-     * Busca o usuário recebedor pelo UUID informado no DTO.
+     * Busca o usuário recebedor pelo UUID informado no DTO e retorna com a carteira bloqueada (lock pessimista).
      *
      * @return User Usuário recebedor.
      */
@@ -127,7 +127,7 @@ readonly class TransferAction
     {
         $this->logger->debug("Fetching payee user: {$dto->getPayeeUuid()}");
 
-        return $this->userRepository->findByUuid($dto->getPayeeUuid());
+        return $this->userRepository->findByUuidWithWalletLockForUpdate($dto->getPayeeUuid());
     }
 
     /**

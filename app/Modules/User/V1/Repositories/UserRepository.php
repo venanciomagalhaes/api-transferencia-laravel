@@ -33,4 +33,18 @@ class UserRepository implements UserRepositoryInterface
 
         return $user->load(['type.permissions', 'wallet']);
     }
+
+    public function findByUuidWithWalletLockForUpdate(string $uuid): User
+    {
+        return $this->model
+            ->where('uuid', $uuid)
+            ->with([
+                'type.permissions',
+                'wallet' => function ($query) {
+                    $query->lockForUpdate();
+                }
+            ])
+            ->firstOrFail();
+    }
+
 }

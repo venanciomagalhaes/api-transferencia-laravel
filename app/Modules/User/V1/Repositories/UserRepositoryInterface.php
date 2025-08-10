@@ -11,4 +11,6 @@ interface UserRepositoryInterface
     public function create(array $data): User;
 
     public function findByUuid(string $uuid): User;
+
+    public function findByUuidWithWalletLockForUpdate(string $uuid): User;
 }
