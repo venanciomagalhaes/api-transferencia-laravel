@@ -2,6 +2,7 @@
 
 namespace App\Modules\Common\V1\Services\Http;
 
+use App\Modules\Common\V1\Exceptions\HttpServiceException;
 use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use Exception;
@@ -114,7 +115,7 @@ class HttpService implements HttpServiceInterface
 
         } catch (RequestException $e) {
             $this->logger->error("HttpService: Error {$method} in {$url} - ".$e->getMessage());
-            throw new UnauthorizedTransferException('An error occurred during the request to authorization service.');
+            throw new HttpServiceException();
         }
     }
 }
