@@ -18,6 +18,11 @@ use App\Modules\User\V1\Repositories\UserRepositoryInterface;
 use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Classe responsável por executar a ação de transferência entre usuários,
+ * realizando validações, controle de permissões, verificação de saldo,
+ * autorização externa e disparo de evento assíncrono após o sucesso da transferência.
+ */
 readonly class TransferAction
 {
     public function __construct(
@@ -29,8 +34,22 @@ readonly class TransferAction
     ) {}
 
     /**
-     * @throws PayerAndPayeeAreTheSameUserException
-     * @throws TransferAmountMustBeGreaterThanZeroException
+     * Executa a transferência de valor entre pagador e recebedor.
+     *
+     * Realiza as seguintes etapas:
+     * - Valida o valor da transferência (deve ser maior que zero).
+     * - Verifica se pagador e recebedor são usuários diferentes.
+     * - Abre uma transação para garantir atomicidade.
+     * - Busca os usuários pagador e recebedor.
+     * - Valida permissões dos usuários para enviar e receber transações.
+     * - Verifica se o pagador possui saldo suficiente.
+     * - Consulta serviço externo para autorização da transferência.
+     * - Realiza a transferência na carteira dos usuários.
+     * - Dispara evento assíncrono TransferSuccessfullyEvent, que trata o envio de mensagens
+     *   de forma assíncrona com retentativas em caso de falha.
+     *
+     * @param TransferDto $dto Dados da transferência.
+     * @return void
      */
     public function handle(TransferDto $dto): void
     {
@@ -59,7 +78,13 @@ readonly class TransferAction
     }
 
     /**
+     * Valida se o valor da transferência é maior que zero.
+     *
+     * Caso contrário, registra erro e lança exceção.
+     *
      * @throws TransferAmountMustBeGreaterThanZeroException
+     * @param TransferDto $dto
+     * @return void
      */
     private function validateAmount(TransferDto $dto): void
     {
@@ -70,7 +95,13 @@ readonly class TransferAction
     }
 
     /**
+     * Valida se pagador e recebedor são usuários diferentes.
+     *
+     * Caso sejam iguais, registra erro e lança exceção.
+     *
      * @throws PayerAndPayeeAreTheSameUserException
+     * @param TransferDto $dto
+     * @return void
      */
     private function validateDifferentUsers(TransferDto $dto): void
     {
@@ -80,6 +111,12 @@ readonly class TransferAction
         }
     }
 
+    /**
+     * Busca o usuário pagador pelo UUID informado no DTO.
+     *
+     * @param TransferDto $dto
+     * @return User Usuário pagador.
+     */
     private function getPayer(TransferDto $dto): User
     {
         $this->logger->debug("Fetching payer user: {$dto->getPayerUuid()}");
@@ -87,6 +124,12 @@ readonly class TransferAction
         return $this->userRepository->findByUuid($dto->getPayerUuid());
     }
 
+    /**
+     * Busca o usuário recebedor pelo UUID informado no DTO.
+     *
+     * @param TransferDto $dto
+     * @return User Usuário recebedor.
+     */
     private function getPayee(TransferDto $dto): User
     {
         $this->logger->debug("Fetching payee user: {$dto->getPayeeUuid()}");
@@ -94,6 +137,15 @@ readonly class TransferAction
         return $this->userRepository->findByUuid($dto->getPayeeUuid());
     }
 
+    /**
+     * Verifica se o pagador possui permissão para enviar transações.
+     *
+     * Caso não possua, registra aviso e lança exceção.
+     *
+     * @throws DoesNotHavePermissionToSendTransactionException
+     * @param User $payer
+     * @return void
+     */
     private function validatePayerPermission(User $payer): void
     {
         if (! $payer->hasPermission(PermissionsNameEnum::SEND_TRANSACTION)) {
@@ -106,7 +158,13 @@ readonly class TransferAction
     }
 
     /**
+     * Verifica se o recebedor possui permissão para receber transações.
+     *
+     * Caso não possua, registra aviso e lança exceção.
+     *
      * @throws DoesNotHavePermissionToReceiveTransactionException
+     * @param User $payee
+     * @return void
      */
     private function validatePayeePermission(User $payee): void
     {
@@ -120,7 +178,14 @@ readonly class TransferAction
     }
 
     /**
+     * Verifica se o pagador possui saldo suficiente para realizar a transferência.
+     *
+     * Caso contrário, registra aviso e lança exceção.
+     *
      * @throws InsufficientBalanceToSendTransactionException
+     * @param User $payer
+     * @param TransferDto $dto
+     * @return void
      */
     private function validateSufficientBalance(User $payer, TransferDto $dto): void
     {
@@ -132,7 +197,12 @@ readonly class TransferAction
     }
 
     /**
+     * Consulta serviço externo para verificar autorização da transferência.
+     *
+     * Em caso de negação, registra erro e lança exceção.
+     *
      * @throws UnauthorizedTransferException
+     * @return void
      */
     private function verifyAuthorization(): void
     {
