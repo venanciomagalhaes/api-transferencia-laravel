@@ -104,7 +104,7 @@ docker compose up --build
 ```
 
 4. Para remover a aplicação, use
-5. 
+
 ```bash
 docker compose down -v
 ```
