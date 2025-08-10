@@ -12,7 +12,7 @@ interface HttpServiceInterface
     /**
      * Executa uma requisição HTTP GET para a URL especificada.
      *
-     * @param string $url URL para a requisição.
+     * @param  string  $url  URL para a requisição.
      * @return array Resposta decodificada JSON.
      */
     public function get(string $url): array;
@@ -20,8 +20,8 @@ interface HttpServiceInterface
     /**
      * Executa uma requisição HTTP POST para a URL especificada com um corpo JSON.
      *
-     * @param string $url URL para a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
+     * @param  string  $url  URL para a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON.
      */
     public function post(string $url, array $body = []): array;
@@ -29,8 +29,8 @@ interface HttpServiceInterface
     /**
      * Executa uma requisição HTTP PUT para a URL especificada com um corpo JSON.
      *
-     * @param string $url URL para a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
+     * @param  string  $url  URL para a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON.
      */
     public function put(string $url, array $body = []): array;
@@ -38,8 +38,8 @@ interface HttpServiceInterface
     /**
      * Executa uma requisição HTTP DELETE para a URL especificada com um corpo JSON.
      *
-     * @param string $url URL para a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
+     * @param  string  $url  URL para a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON.
      */
     public function delete(string $url, array $body = []): array;

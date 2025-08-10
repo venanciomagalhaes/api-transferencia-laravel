@@ -26,9 +26,8 @@ class AppExceptionHandler extends Handler
      * uma resposta JSON com a mensagem e o código HTTP apropriado.
      * Para outras exceções, utiliza o comportamento padrão do Laravel.
      *
-     * @param Request $request
-     * @param Throwable $e
-     * @return Response
+     * @param  Request  $request
+     *
      * @throws Throwable
      */
     public function render($request, Throwable $e): Response

@@ -13,6 +13,5 @@ use Exception;
  * Ao lançar uma exceção que estende esta classe, é possível definir
  * mensagens e códigos de status HTTP que serão utilizados para
  * compor respostas padronizadas para a API.
- *
  */
 abstract class AbstractBusinessException extends Exception {}

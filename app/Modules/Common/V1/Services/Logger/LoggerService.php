@@ -13,9 +13,8 @@ class LoggerService implements LoggerServiceInterface
     /**
      * Registra uma mensagem de nível informativo (info).
      *
-     * @param string $message Mensagem a ser registrada.
-     * @param array $context Contexto adicional para a mensagem (opcional).
-     * @return void
+     * @param  string  $message  Mensagem a ser registrada.
+     * @param  array  $context  Contexto adicional para a mensagem (opcional).
      */
     public function info(string $message, array $context = []): void
     {
@@ -25,9 +24,8 @@ class LoggerService implements LoggerServiceInterface
     /**
      * Registra uma mensagem de nível aviso (warning).
      *
-     * @param string $message Mensagem a ser registrada.
-     * @param array $context Contexto adicional para a mensagem (opcional).
-     * @return void
+     * @param  string  $message  Mensagem a ser registrada.
+     * @param  array  $context  Contexto adicional para a mensagem (opcional).
      */
     public function warning(string $message, array $context = []): void
     {
@@ -37,9 +35,8 @@ class LoggerService implements LoggerServiceInterface
     /**
      * Registra uma mensagem de nível erro (error).
      *
-     * @param string $message Mensagem a ser registrada.
-     * @param array $context Contexto adicional para a mensagem (opcional).
-     * @return void
+     * @param  string  $message  Mensagem a ser registrada.
+     * @param  array  $context  Contexto adicional para a mensagem (opcional).
      */
     public function error(string $message, array $context = []): void
     {
@@ -49,9 +46,8 @@ class LoggerService implements LoggerServiceInterface
     /**
      * Registra uma mensagem de nível debug.
      *
-     * @param string $message Mensagem a ser registrada.
-     * @param array $context Contexto adicional para a mensagem (opcional).
-     * @return void
+     * @param  string  $message  Mensagem a ser registrada.
+     * @param  array  $context  Contexto adicional para a mensagem (opcional).
      */
     public function debug(string $message, array $context = []): void
     {

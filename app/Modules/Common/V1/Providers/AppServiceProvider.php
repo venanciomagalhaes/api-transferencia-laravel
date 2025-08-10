@@ -23,11 +23,9 @@ use Illuminate\Support\ServiceProvider;
  * Faz o binding de interfaces para suas implementações concretas,
  * garantindo a injeção de dependências correta ao longo do sistema.
  * Também registra o manipulador de exceções personalizado da aplicação.
- *
  */
 class AppServiceProvider extends ServiceProvider
 {
-
     public function register(): void
     {
         $this->app->bind(LoggerServiceInterface::class, LoggerService::class);
@@ -36,7 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ExceptionHandler::class, AppExceptionHandler::class);
         $this->app->singleton(HttpServiceInterface::class, HttpService::class);
     }
-
 
     public function boot(): void
     {

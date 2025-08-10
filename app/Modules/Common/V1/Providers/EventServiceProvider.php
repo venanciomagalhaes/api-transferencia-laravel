@@ -16,11 +16,9 @@ use Illuminate\Support\ServiceProvider;
  *
  * Define as relações entre eventos e seus respectivos listeners,
  * permitindo que ações sejam disparadas automaticamente quando os eventos ocorrerem.
- *
  */
 class EventServiceProvider extends ServiceProvider
 {
-
     public function register(): void
     {
         //
@@ -31,8 +29,6 @@ class EventServiceProvider extends ServiceProvider
      *
      * Registra os listeners para eventos específicos,
      * para que ações relacionadas sejam executadas quando os eventos forem disparados.
-     *
-     * @return void
      */
     public function boot(): void
     {

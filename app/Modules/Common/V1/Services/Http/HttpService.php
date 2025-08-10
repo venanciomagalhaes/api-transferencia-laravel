@@ -22,15 +22,11 @@ class HttpService implements HttpServiceInterface
 {
     /**
      * Número máximo de tentativas em caso de falha na requisição HTTP.
-     *
-     * @var int
      */
     protected int $retries = 3;
 
     /**
      * Tempo de espera (em milissegundos) entre cada tentativa de retry.
-     *
-     * @var int
      */
     protected int $retryDelayMs = 100;
 
@@ -41,9 +37,10 @@ class HttpService implements HttpServiceInterface
     /**
      * Faz uma requisição HTTP GET para a URL especificada.
      *
-     * @param string $url URL para realizar a requisição.
-     * @throws Exception Em caso de falha após tentativas de retry.
+     * @param  string  $url  URL para realizar a requisição.
      * @return array Resposta decodificada JSON da requisição.
+     *
+     * @throws Exception Em caso de falha após tentativas de retry.
      */
     public function get(string $url): array
     {
@@ -53,10 +50,11 @@ class HttpService implements HttpServiceInterface
     /**
      * Faz uma requisição HTTP POST para a URL especificada com corpo JSON.
      *
-     * @param string $url URL para realizar a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
-     * @throws Exception Em caso de falha após tentativas de retry.
+     * @param  string  $url  URL para realizar a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON da requisição.
+     *
+     * @throws Exception Em caso de falha após tentativas de retry.
      */
     public function post(string $url, array $body = []): array
     {
@@ -66,10 +64,11 @@ class HttpService implements HttpServiceInterface
     /**
      * Faz uma requisição HTTP PUT para a URL especificada com corpo JSON.
      *
-     * @param string $url URL para realizar a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
-     * @throws Exception Em caso de falha após tentativas de retry.
+     * @param  string  $url  URL para realizar a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON da requisição.
+     *
+     * @throws Exception Em caso de falha após tentativas de retry.
      */
     public function put(string $url, array $body = []): array
     {
@@ -79,10 +78,11 @@ class HttpService implements HttpServiceInterface
     /**
      * Faz uma requisição HTTP DELETE para a URL especificada com corpo JSON.
      *
-     * @param string $url URL para realizar a requisição.
-     * @param array $body Dados a serem enviados no corpo da requisição.
-     * @throws Exception Em caso de falha após tentativas de retry.
+     * @param  string  $url  URL para realizar a requisição.
+     * @param  array  $body  Dados a serem enviados no corpo da requisição.
      * @return array Resposta decodificada JSON da requisição.
+     *
+     * @throws Exception Em caso de falha após tentativas de retry.
      */
     public function delete(string $url, array $body = []): array
     {
@@ -92,11 +92,12 @@ class HttpService implements HttpServiceInterface
     /**
      * Realiza a requisição HTTP usando retry nativo do Laravel HTTP Client.
      *
-     * @param string $method Metodo HTTP (get, post, put, delete).
-     * @param string $url URL da requisição.
-     * @param array $body Corpo da requisição (opcional).
-     * @throws Exception Se a requisição falhar após todas as tentativas.
+     * @param  string  $method  Metodo HTTP (get, post, put, delete).
+     * @param  string  $url  URL da requisição.
+     * @param  array  $body  Corpo da requisição (opcional).
      * @return array Resposta decodificada JSON da requisição.
+     *
+     * @throws Exception Se a requisição falhar após todas as tentativas.
      */
     protected function makeRequest(string $method, string $url, array $body = []): array
     {
@@ -112,7 +113,7 @@ class HttpService implements HttpServiceInterface
             return $response->json();
 
         } catch (RequestException $e) {
-            $this->logger->error("HttpService: Error {$method} in {$url} - " . $e->getMessage());
+            $this->logger->error("HttpService: Error {$method} in {$url} - ".$e->getMessage());
             throw new UnauthorizedTransferException('An error occurred during the request to authorization service.');
         }
     }
