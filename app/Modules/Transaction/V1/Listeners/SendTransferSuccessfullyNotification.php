@@ -13,6 +13,7 @@ class SendTransferSuccessfullyNotification implements ShouldQueue
     use InteractsWithQueue;
 
     public int $tries = 5;
+
     public int $backoff = 10;
 
     public function __construct(
@@ -23,11 +24,11 @@ class SendTransferSuccessfullyNotification implements ShouldQueue
     public function handle(TransferSuccessfullyEvent $event): void
     {
         try {
-            $this->logger->info("Sending transfer notification...");
+            $this->logger->info('Sending transfer notification...');
             $this->httpService->post(env('NOTIFICATION_SERVICE_ENDPOINT_URL'), []);
-            $this->logger->info("Notification sent successfully.");
+            $this->logger->info('Notification sent successfully.');
         } catch (\Exception $exception) {
-            $this->logger->error('Sending notification failed: ' . $exception->getMessage());
+            $this->logger->error('Sending notification failed: '.$exception->getMessage());
             throw $exception;
         }
     }
@@ -37,6 +38,6 @@ class SendTransferSuccessfullyNotification implements ShouldQueue
      */
     public function failed(TransferSuccessfullyEvent $event, \Throwable $exception): void
     {
-        $this->logger->error('Notification permanently failed after retries. Error: ' . $exception->getMessage());
+        $this->logger->error('Notification permanently failed after retries. Error: '.$exception->getMessage());
     }
 }

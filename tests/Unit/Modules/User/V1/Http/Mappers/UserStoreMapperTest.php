@@ -2,17 +2,17 @@
 
 namespace Tests\Unit\Modules\User\V1\Http\Mappers;
 
+use App\Modules\User\V1\Http\Dtos\UserStoreDto;
 use App\Modules\User\V1\Http\Mappers\UserStoreMapper;
 use App\Modules\User\V1\Http\Requests\UserStoreRequest;
-use App\Modules\User\V1\Http\Dtos\UserStoreDto;
-use App\Modules\User\V1\Models\User;
 use App\Modules\User\V1\Http\Resources\UserStoreResource;
+use App\Modules\User\V1\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Mockery;
 use Ramsey\Uuid\Uuid;
 
 beforeEach(function () {
-    $this->mapper = new UserStoreMapper();
+    $this->mapper = new UserStoreMapper;
 });
 
 it('converte um UserStoreRequest mockado em um UserStoreDto corretamente', function () {

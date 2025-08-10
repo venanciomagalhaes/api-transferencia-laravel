@@ -2,7 +2,6 @@
 
 namespace App\Modules\Common\V1\Services\Http;
 
-
 interface HttpServiceInterface
 {
     public function get(string $url): array;
@@ -13,4 +12,3 @@ interface HttpServiceInterface
 
     public function delete(string $url, array $body = []): array;
 }
-

@@ -5,7 +5,6 @@ namespace Tests\Unit\Modules\User\V1\Http\Dtos;
 use App\Modules\User\V1\Http\Dtos\UserStoreDto;
 use Illuminate\Support\Facades\Hash;
 
-
 it('cria o DTO corretamente e retorna os valores esperados', function () {
     $dto = new UserStoreDto(
         name: 'Maria da Silva',

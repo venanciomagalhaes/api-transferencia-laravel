@@ -32,20 +32,18 @@ use Exception;
  *  - Define o tipo de usuário (comum ou lojista);
  *  - Persiste os dados no banco de forma transacional;
  *  - Dispara evento de criação para integração com outros módulos (ex: carteira).
- *
- * @package App\Modules\User\V1\Actions
  */
 readonly class UserStoreAction
 {
     /**
      * Construtor da classe.
      *
-     * @param UserRepositoryInterface $userRepository Repositório para acesso e persistência de usuários.
-     * @param UserTypeRepositoryInterface $userTypeRepository Repositório para tipos de usuário.
-     * @param UserStoreMapper $userStoreMapper Mapper para converter DTO em estrutura de persistência.
-     * @param CpfCnpjValidationService $cpfCnpjValidationService Serviço de validação de CPF/CNPJ.
-     * @param LoggerServiceInterface $loggerService Serviço centralizado para logging da aplicação.
-     * @param TransactionServiceInterface $transactionService Serviço para gerenciamento de transações.
+     * @param  UserRepositoryInterface  $userRepository  Repositório para acesso e persistência de usuários.
+     * @param  UserTypeRepositoryInterface  $userTypeRepository  Repositório para tipos de usuário.
+     * @param  UserStoreMapper  $userStoreMapper  Mapper para converter DTO em estrutura de persistência.
+     * @param  CpfCnpjValidationService  $cpfCnpjValidationService  Serviço de validação de CPF/CNPJ.
+     * @param  LoggerServiceInterface  $loggerService  Serviço centralizado para logging da aplicação.
+     * @param  TransactionServiceInterface  $transactionService  Serviço para gerenciamento de transações.
      */
     public function __construct(
         private UserRepositoryInterface $userRepository,
@@ -54,8 +52,7 @@ readonly class UserStoreAction
         private CpfCnpjValidationService $cpfCnpjValidationService,
         private LoggerServiceInterface $loggerService,
         private TransactionServiceInterface $transactionService,
-    ) {
-    }
+    ) {}
 
     /**
      * Executa o processo de criação de um novo usuário.
@@ -71,7 +68,7 @@ readonly class UserStoreAction
      * 4. Persiste o usuário no banco de dados.
      * 5. Dispara evento `UserCreated`.
      *
-     * @param UserStoreDto $dto Objeto de transferência com os dados do usuário.
+     * @param  UserStoreDto  $dto  Objeto de transferência com os dados do usuário.
      * @return User O usuário recém-criado.
      *
      * @throws UserAlreadyExistsException Se já houver um usuário com o mesmo e-mail ou documento.
@@ -111,7 +108,7 @@ readonly class UserStoreAction
                 return $user->load('wallet');
             });
         } catch (Exception $e) {
-            $this->loggerService->error('An error occurred while creating the user: ' . $e->getMessage());
+            $this->loggerService->error('An error occurred while creating the user: '.$e->getMessage());
             $this->loggerService->info('Database transaction rolled back.');
 
             throw $e;
@@ -121,14 +118,15 @@ readonly class UserStoreAction
     /**
      * Verifica se o usuário já existe e, em caso positivo, lança exceção.
      *
-     * @param User|null $user Instância existente ou null.
+     * @param  User|null  $user  Instância existente ou null.
+     *
      * @throws UserAlreadyExistsException Se o usuário já estiver cadastrado.
      */
     public function throwExceptionIfUserAlreadyExists(?User $user): void
     {
         if ($user instanceof User) {
             $this->loggerService->warning('Attempt to create user that already exists.');
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException;
         }
     }
 
@@ -138,28 +136,31 @@ readonly class UserStoreAction
      * Caso o documento seja CPF, o tipo será COMMON.
      * Caso seja CNPJ, o tipo será MERCHANT.
      *
-     * @param UserStoreDto $dto DTO do usuário com o documento informado.
+     * @param  UserStoreDto  $dto  DTO do usuário com o documento informado.
+     *
      * @throws InvalidDocumentException Se o documento não for válido.
      */
     public function setUserType(UserStoreDto $dto): void
     {
         $document = preg_replace('/\D/', '', $dto->getDocument());
 
-        if(strlen($document) == 11 && $this->cpfCnpjValidationService->isCpf($document)) {
-                $userType = $this->userTypeRepository->getUserTypeByName(UserTypeNameEnum::COMMON);
-                $this->loggerService->info('User type set to COMMON based on CPF.');
-                $dto->setUserType($userType->id);
-                return;
+        if (strlen($document) == 11 && $this->cpfCnpjValidationService->isCpf($document)) {
+            $userType = $this->userTypeRepository->getUserTypeByName(UserTypeNameEnum::COMMON);
+            $this->loggerService->info('User type set to COMMON based on CPF.');
+            $dto->setUserType($userType->id);
+
+            return;
         }
 
         if ($this->cpfCnpjValidationService->isCnpj($document)) {
             $userType = $this->userTypeRepository->getUserTypeByName(UserTypeNameEnum::MERCHANT);
             $this->loggerService->info('User type set to MERCHANT based on CNPJ.');
             $dto->setUserType($userType->id);
+
             return;
         }
 
         $this->loggerService->error('Invalid document provided for user type determination.');
-        throw new InvalidDocumentException();
+        throw new InvalidDocumentException;
     }
 }

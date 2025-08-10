@@ -18,9 +18,9 @@ class TransferMapper
 
     public function getResourceResponse(): array
     {
-       return [
+        return [
             'message' => 'Transfer send successfully',
-            'data' => []
+            'data' => [],
         ];
     }
 }

@@ -15,9 +15,8 @@ class UserCreated
     /**
      * Create a new event instance.
      */
-    public function __construct(public readonly User $user, public readonly float $amount) {
+    public function __construct(public readonly User $user, public readonly float $amount) {}
 
-    }
     /**
      * Get the channels the event should broadcast on.
      *

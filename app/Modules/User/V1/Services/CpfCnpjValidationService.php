@@ -12,12 +12,13 @@ class CpfCnpjValidationService
      *
      * Remove qualquer caractere não numérico antes da validação.
      *
-     * @param string $document Documento a ser validado.
+     * @param  string  $document  Documento a ser validado.
      * @return bool Retorna true se for um CPF válido, false caso contrário.
      */
     public function isCpf(string $document): bool
     {
         $numbersOnly = preg_replace('/\D/', '', $document);
+
         return $this->isValidCpf($numbersOnly);
     }
 
@@ -26,12 +27,13 @@ class CpfCnpjValidationService
      *
      * Remove qualquer caractere não numérico antes da validação.
      *
-     * @param string $document Documento a ser validado.
+     * @param  string  $document  Documento a ser validado.
      * @return bool Retorna true se for um CNPJ válido, false caso contrário.
      */
     public function isCnpj(string $document): bool
     {
         $numbersOnly = preg_replace('/\D/', '', $document);
+
         return $this->isValidCnpj($numbersOnly);
     }
 
@@ -41,7 +43,7 @@ class CpfCnpjValidationService
      * O CPF deve conter exatamente 11 dígitos e não pode ser uma sequência repetida (ex: 111.111.111-11).
      * A validação é feita com base nos dois dígitos verificadores finais.
      *
-     * @param string $cpf Número do CPF contendo apenas dígitos.
+     * @param  string  $cpf  Número do CPF contendo apenas dígitos.
      * @return bool Retorna true se o CPF for válido, false caso contrário.
      */
     public function isValidCpf(string $cpf): bool
@@ -72,7 +74,7 @@ class CpfCnpjValidationService
      * O CNPJ deve conter exatamente 14 dígitos e não pode ser uma sequência repetida (ex: 00.000.000/0000-00).
      * A validação é feita com base nos dois dígitos verificadores finais.
      *
-     * @param string $cnpj Número do CNPJ contendo apenas dígitos.
+     * @param  string  $cnpj  Número do CNPJ contendo apenas dígitos.
      * @return bool Retorna true se o CNPJ for válido, false caso contrário.
      */
     public function isValidCnpj(string $cnpj): bool
@@ -103,6 +105,6 @@ class CpfCnpjValidationService
         $remainder = $sum % 11;
         $digit2 = ($remainder < 2) ? 0 : 11 - $remainder;
 
-        return ($cnpj[12] == $digit1 && $cnpj[13] == $digit2);
+        return $cnpj[12] == $digit1 && $cnpj[13] == $digit2;
     }
 }

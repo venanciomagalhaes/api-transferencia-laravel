@@ -2,9 +2,9 @@
 
 namespace App\Modules\Permissions\V1\Models;
 
+use App\Modules\User\V1\Models\UserType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Modules\User\V1\Models\UserType;
 
 class UserTypePermission extends Model
 {
@@ -15,7 +15,6 @@ class UserTypePermission extends Model
         'permission_id',
         'user_type_id',
     ];
-
 
     public function userType(): BelongsTo
     {

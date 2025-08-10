@@ -39,7 +39,7 @@ class UsersTypesSeeder extends Seeder
         );
 
         return [
-            'common'   => $commonUser,
+            'common' => $commonUser,
             'merchant' => $merchantUser,
         ];
     }
@@ -63,7 +63,7 @@ class UsersTypesSeeder extends Seeder
         );
 
         return [
-            'send'    => $sendTransaction,
+            'send' => $sendTransaction,
             'receive' => $receiveTransaction,
         ];
     }
@@ -80,7 +80,7 @@ class UsersTypesSeeder extends Seeder
     {
         $this->userTypePermissionModel->firstOrCreate(
             [
-                'user_type_id'  => $userTypeId,
+                'user_type_id' => $userTypeId,
                 'permission_id' => $permissionId,
             ],
             [

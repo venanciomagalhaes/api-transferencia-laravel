@@ -13,12 +13,11 @@ class Wallet extends Model
     protected $fillable = [
         'uuid',
         'amount',
-        'user_id'
+        'user_id',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
-
 }

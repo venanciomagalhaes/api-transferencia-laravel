@@ -25,7 +25,7 @@ class UserStoreResource extends JsonResource
             'permissions' => $this->type?->permissions->map(function (Permission $permission) {
                 return [
                     'name' => $permission->name,
-                    'description' => $permission?->description
+                    'description' => $permission?->description,
                 ];
             })->toArray(),
         ];

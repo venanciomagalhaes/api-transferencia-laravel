@@ -2,7 +2,6 @@
 
 namespace App\Modules\Common\V1\Services\Http;
 
-
 use Exception;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
@@ -12,13 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 class HttpService implements HttpServiceInterface
 {
     protected int $retries = 3;
+
     protected int $retryDelayMs = 100;
 
     public function __construct(
         private readonly LoggerInterface $logger
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws Exception
@@ -67,7 +65,7 @@ class HttpService implements HttpServiceInterface
             return $response->json();
 
         } catch (RequestException $e) {
-            $this->logger->error('HttpService:' . $method . ' Error: ' . $e->getMessage());
+            $this->logger->error('HttpService:'.$method.' Error: '.$e->getMessage());
             throw $e;
         }
 

@@ -6,7 +6,7 @@ use App\Modules\User\V1\Exceptions\InvalidDocumentException;
 use Symfony\Component\HttpFoundation\Response;
 
 it('instancia InvalidDocumentException com valores padrão', function () {
-    $exception = new InvalidDocumentException();
+    $exception = new InvalidDocumentException;
 
     expect($exception->getMessage())->toBe('This document is invalid')
         ->and($exception->getCode())->toBe(Response::HTTP_UNPROCESSABLE_ENTITY);

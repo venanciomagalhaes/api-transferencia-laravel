@@ -11,8 +11,6 @@ class TransactionService implements TransactionServiceInterface
     /**
      * Executa um callback dentro de uma transação de banco de dados.
      *
-     * @param Closure $callback
-     * @return mixed
      * @throws Throwable
      */
     public function run(Closure $callback): mixed

@@ -6,15 +6,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserStoreDto
 {
-    private int|null $userType = null;
+    private ?int $userType = null;
 
     public function __construct(
         private readonly string $name,
         private readonly string $document,
         private readonly string $email,
         private string $password,
-    )
-    {
+    ) {
         $this->password = Hash::make($this->password);
     }
 
@@ -47,5 +46,4 @@ class UserStoreDto
     {
         $this->userType = $userType;
     }
-
 }

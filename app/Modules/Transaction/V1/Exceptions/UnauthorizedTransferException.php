@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UnauthorizedTransferException extends AbstractBusinessException
 {
-    public function __construct(string $message = "This payer is not authorized to perform this transfer.", int $code = Response::HTTP_UNAUTHORIZED)
+    public function __construct(string $message = 'This payer is not authorized to perform this transfer.', int $code = Response::HTTP_UNAUTHORIZED)
     {
         parent::__construct($message, $code);
     }

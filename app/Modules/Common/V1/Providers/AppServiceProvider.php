@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(LoggerServiceInterface::class, LoggerService::class);
         $this->app->bind(CacheServiceInterface::class, CacheService::class);
-        $this->app->bind(TransactionServiceInterface::class,TransactionService::class);
+        $this->app->bind(TransactionServiceInterface::class, TransactionService::class);
         $this->app->singleton(ExceptionHandler::class, AppExceptionHandler::class);
         $this->app->singleton(HttpServiceInterface::class, HttpService::class);
     }

@@ -2,7 +2,6 @@
 
 namespace App\Modules\User\V1\Http\Requests;
 
-use App\Modules\User\V1\Http\Rules\CpfCnpj;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
@@ -28,7 +27,7 @@ class UserStoreRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
             'document' => [
                 'required',
@@ -51,11 +50,10 @@ class UserStoreRequest extends FormRequest
                     ->numbers()
                     ->symbols()
                     ->uncompromised(),
-                'confirmed'
+                'confirmed',
             ],
         ];
     }
-
 
     /**
      * Get custom error messages for validation rules.

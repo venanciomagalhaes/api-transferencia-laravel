@@ -6,7 +6,6 @@ use App\Modules\User\V1\Models\User;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-
 $endpoint = '/api/v1/auth/user';
 
 test('deve criar um novo usuário com sucesso e com carteira de 1000.00', function () use ($endpoint) {
@@ -32,7 +31,7 @@ test('deve criar um novo usuário com sucesso e com carteira de 1000.00', functi
             'document',
             'email',
             'amount',
-        ]
+        ],
     ]);
 
     $this->assertDatabaseHas('users', [
@@ -68,7 +67,7 @@ test('deve impedir criação de usuário com email duplicado', function () use (
     ]);
 
     $response->assertStatus(Response::HTTP_CONFLICT)
-        ->assertJson(['message' => "This user already exists"]);
+        ->assertJson(['message' => 'This user already exists']);
 });
 
 test('deve impedir criação de usuário com documento duplicado', function () use ($endpoint) {
@@ -78,7 +77,7 @@ test('deve impedir criação de usuário com documento duplicado', function () u
     $this->postJson($endpoint, [
         'name' => 'João Silva',
         'document' => $cpf,
-        'email' => Str::random(10) . '@example.com',
+        'email' => Str::random(10).'@example.com',
         'password' => $password,
         'password_confirmation' => $password,
     ])->assertCreated();
@@ -86,13 +85,13 @@ test('deve impedir criação de usuário com documento duplicado', function () u
     $response = $this->postJson($endpoint, [
         'name' => 'Maria Silva',
         'document' => $cpf,
-        'email' => Str::random(10) . '@example.com',
+        'email' => Str::random(10).'@example.com',
         'password' => $password,
         'password_confirmation' => $password,
     ]);
 
     $response->assertStatus(Response::HTTP_CONFLICT)
-        ->assertJson(['message' => "This user already exists"]);
+        ->assertJson(['message' => 'This user already exists']);
 });
 
 test('deve impedir criação de usuário com CPF inválido', function () {

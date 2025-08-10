@@ -23,12 +23,14 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $data): User
     {
         $user = $this->model->create($data);
+
         return $user->load('type.permissions');
     }
 
     public function findByUuid(string $uuid): User
     {
         $user = $this->model->where('uuid', $uuid)->firstOrFail();
+
         return $user->load(['type.permissions', 'wallet']);
     }
 }

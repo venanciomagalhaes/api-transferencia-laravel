@@ -7,9 +7,7 @@ class WalletStoreDto
     public function __construct(
         private int $userId,
         private float $amount
-    )
-    {
-    }
+    ) {}
 
     public function getUserId(): int
     {
@@ -20,5 +18,4 @@ class WalletStoreDto
     {
         return $this->amount;
     }
-
 }

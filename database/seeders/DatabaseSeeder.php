@@ -9,11 +9,10 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-
     public function run(): void
     {
-       $this->call([
-           UsersTypesSeeder::class,
-       ]);
+        $this->call([
+            UsersTypesSeeder::class,
+        ]);
     }
 }

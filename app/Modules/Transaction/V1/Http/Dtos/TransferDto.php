@@ -7,10 +7,8 @@ readonly class TransferDto
     public function __construct(
         private string $payerUuid,
         private string $payeeUuid,
-        private float  $amount,
-    )
-    {
-    }
+        private float $amount,
+    ) {}
 
     public function getPayerUuid(): string
     {
@@ -26,5 +24,4 @@ readonly class TransferDto
     {
         return $this->amount;
     }
-
 }

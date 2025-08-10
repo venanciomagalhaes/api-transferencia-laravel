@@ -36,7 +36,7 @@ class UserStoreMapper
     {
         return [
             'message' => 'User created successfully.',
-            'data' => new UserStoreResource($user)
+            'data' => new UserStoreResource($user),
         ];
     }
 }

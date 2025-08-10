@@ -3,7 +3,7 @@
 use App\Modules\User\V1\Services\CpfCnpjValidationService;
 
 beforeEach(function () {
-    $this->validator = new CpfCnpjValidationService();
+    $this->validator = new CpfCnpjValidationService;
 });
 
 it('valida CPF válido', function () {

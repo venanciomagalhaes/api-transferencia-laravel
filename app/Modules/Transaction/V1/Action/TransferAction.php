@@ -21,14 +21,12 @@ use Psr\Log\LoggerInterface;
 readonly class TransferAction
 {
     public function __construct(
-        private UserRepositoryInterface     $userRepository,
-        private HttpServiceInterface        $httpService,
+        private UserRepositoryInterface $userRepository,
+        private HttpServiceInterface $httpService,
         private TransactionServiceInterface $transactionService,
-        private WalletRepositoryInterface   $walletRepository,
-        private LoggerInterface             $logger,
-    ) {
-    }
-
+        private WalletRepositoryInterface $walletRepository,
+        private LoggerInterface $logger,
+    ) {}
 
     /**
      * @throws PayerAndPayeeAreTheSameUserException
@@ -50,11 +48,11 @@ readonly class TransferAction
             $this->validateSufficientBalance($payer, $dto);
             $this->verifyAuthorization();
 
-            $this->logger->info("Authorization granted, proceeding with transfer...");
+            $this->logger->info('Authorization granted, proceeding with transfer...');
 
             $this->walletRepository->makeTransfer($payer, $dto->getAmount(), $payee);
 
-            $this->logger->info("Transfer completed successfully.");
+            $this->logger->info('Transfer completed successfully.');
 
             event(new TransferSuccessfullyEvent($payee, $dto->getAmount()));
         });
@@ -85,18 +83,20 @@ readonly class TransferAction
     private function getPayer(TransferDto $dto): User
     {
         $this->logger->debug("Fetching payer user: {$dto->getPayerUuid()}");
+
         return $this->userRepository->findByUuid($dto->getPayerUuid());
     }
 
     private function getPayee(TransferDto $dto): User
     {
         $this->logger->debug("Fetching payee user: {$dto->getPayeeUuid()}");
+
         return $this->userRepository->findByUuid($dto->getPayeeUuid());
     }
 
     private function validatePayerPermission(User $payer): void
     {
-        if (!$payer->hasPermission(PermissionsNameEnum::SEND_TRANSACTION)) {
+        if (! $payer->hasPermission(PermissionsNameEnum::SEND_TRANSACTION)) {
             $this->logger->warning("User {$payer->uuid} does not have permission to send transactions.");
             throw new DoesNotHavePermissionToSendTransactionException(
                 'This payer does not have permission to send transactions.'
@@ -110,7 +110,7 @@ readonly class TransferAction
      */
     private function validatePayeePermission(User $payee): void
     {
-        if (!$payee->hasPermission(PermissionsNameEnum::RECEIVE_TRANSACTION)) {
+        if (! $payee->hasPermission(PermissionsNameEnum::RECEIVE_TRANSACTION)) {
             $this->logger->warning("User {$payee->uuid} does not have permission to receive transactions.");
             throw new DoesNotHavePermissionToReceiveTransactionException(
                 'This payee does not have permission to receive transactions.'
@@ -126,7 +126,7 @@ readonly class TransferAction
     {
         if ($payer->wallet->amount < $dto->getAmount()) {
             $this->logger->warning("User {$payer->uuid} has insufficient balance: {$payer->wallet->amount}, required: {$dto->getAmount()}.");
-            throw new InsufficientBalanceToSendTransactionException();
+            throw new InsufficientBalanceToSendTransactionException;
         }
         $this->logger->debug("User {$payer->uuid} has sufficient balance: {$payer->wallet->amount}.");
     }
@@ -136,18 +136,18 @@ readonly class TransferAction
      */
     private function verifyAuthorization(): void
     {
-        $this->logger->info("Checking external authorization service...");
+        $this->logger->info('Checking external authorization service...');
         $authorization = $this->httpService->get(env('AUTHORIZE_TRANSACTION_ENDPOINT_URL'));
 
-        $this->logger->debug("Authorization response: " . json_encode($authorization));
+        $this->logger->debug('Authorization response: '.json_encode($authorization));
 
         $isAuthorized = $authorization['status'] && $authorization['data']['authorization'];
 
-        if (!$isAuthorized) {
-            $this->logger->error("Transfer not authorized by external service.");
-            throw new UnauthorizedTransferException();
+        if (! $isAuthorized) {
+            $this->logger->error('Transfer not authorized by external service.');
+            throw new UnauthorizedTransferException;
         }
 
-        $this->logger->info("Transfer authorized by external service.");
+        $this->logger->info('Transfer authorized by external service.');
     }
 }

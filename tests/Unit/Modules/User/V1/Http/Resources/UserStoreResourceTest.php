@@ -55,7 +55,7 @@ it('transforma o model mockado corretamente em um resource', function () {
             [
                 'name' => 'receive_transaction',
                 'description' => null,
-            ]
+            ],
         ],
     ]);
 });

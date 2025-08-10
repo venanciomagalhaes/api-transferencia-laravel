@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserType extends Model
 {
-
     protected $table = 'users_types';
-
 
     protected $fillable = [
         'id',
@@ -33,5 +31,4 @@ class UserType extends Model
             'permission_id',
         );
     }
-
 }

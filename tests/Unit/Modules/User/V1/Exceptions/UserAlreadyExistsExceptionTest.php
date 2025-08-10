@@ -6,7 +6,7 @@ use App\Modules\User\V1\Exceptions\UserAlreadyExistsException;
 use Symfony\Component\HttpFoundation\Response;
 
 it('instancia UserAlreadyExistsException com valores padrão', function () {
-    $exception = new UserAlreadyExistsException();
+    $exception = new UserAlreadyExistsException;
 
     expect($exception->getMessage())->toBe('This user already exists')
         ->and($exception->getCode())->toBe(Response::HTTP_CONFLICT);

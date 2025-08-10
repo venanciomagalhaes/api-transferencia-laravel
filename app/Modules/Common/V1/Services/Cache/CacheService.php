@@ -9,10 +9,6 @@ class CacheService implements CacheServiceInterface
 {
     /**
      * Armazena um valor no cache por um tempo determinado.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @param int $ttl
      */
     public function put(string $key, mixed $value, int $ttl = 3600): void
     {
@@ -21,10 +17,6 @@ class CacheService implements CacheServiceInterface
 
     /**
      * Recupera um valor do cache, ou retorna o valor padrão.
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
      */
     public function get(string $key, mixed $default = null): mixed
     {
@@ -33,9 +25,6 @@ class CacheService implements CacheServiceInterface
 
     /**
      * Verifica se uma chave existe no cache.
-     *
-     * @param string $key
-     * @return bool
      */
     public function has(string $key): bool
     {
@@ -44,8 +33,6 @@ class CacheService implements CacheServiceInterface
 
     /**
      * Remove uma chave do cache.
-     *
-     * @param string $key
      */
     public function forget(string $key): void
     {
@@ -54,11 +41,6 @@ class CacheService implements CacheServiceInterface
 
     /**
      * Recupera um valor do cache ou armazena o resultado de uma Closure.
-     *
-     * @param string $key
-     * @param Closure $callback
-     * @param int $ttl
-     * @return mixed
      */
     public function remember(string $key, Closure $callback, int $ttl = 3600): mixed
     {

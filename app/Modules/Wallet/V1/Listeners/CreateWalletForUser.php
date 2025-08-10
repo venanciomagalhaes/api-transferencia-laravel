@@ -16,8 +16,7 @@ class CreateWalletForUser
         private WalletRepositoryInterface $walletRepository,
         private WalletMapper $walletMapper,
         private LoggerInterface $logger
-    )
-    {
+    ) {
         //
     }
 
@@ -33,7 +32,7 @@ class CreateWalletForUser
             $this->walletRepository->create($data);
             $this->logger->info('Wallet created successfully.');
         } catch (\Exception $exception) {
-            $this->logger->error('Error while creating wallet: ' . $exception->getMessage());
+            $this->logger->error('Error while creating wallet: '.$exception->getMessage());
             throw $exception;
         }
     }

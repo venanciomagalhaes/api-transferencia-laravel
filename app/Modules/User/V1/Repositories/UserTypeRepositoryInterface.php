@@ -8,5 +8,4 @@ use App\Modules\User\V1\Models\UserType;
 interface UserTypeRepositoryInterface
 {
     public function getUserTypeByName(UserTypeNameEnum $userTypeName): UserType;
-
 }

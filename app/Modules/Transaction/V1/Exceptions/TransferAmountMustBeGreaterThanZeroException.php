@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransferAmountMustBeGreaterThanZeroException extends AbstractBusinessException
 {
-    public function __construct(string $message = "Transfer amount must be greater than zero", int $code = Response::HTTP_BAD_REQUEST)
+    public function __construct(string $message = 'Transfer amount must be greater than zero', int $code = Response::HTTP_BAD_REQUEST)
     {
         parent::__construct($message, $code);
     }

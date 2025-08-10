@@ -9,12 +9,12 @@ use App\Modules\User\V1\Http\Requests\UserStoreRequest;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-
 /**
  * @OA\Info(
  *     version="1.0.0",
  *     title="Api transferência simplificada",
  *     description="API que simula um sistema simplificado de transferências",
+ *
  *     @OA\Contact(
  *         email="venanciomagalhaesd@gmail.com",
  *         name="D.Venancio"
@@ -26,14 +26,9 @@ class UserController extends Controller
     public function __construct(
         private readonly UserStoreMapper $userStoreMapper,
         private readonly UserStoreAction $userStoreAction
-    )
-    {
-    }
-
+    ) {}
 
     /**
-     *
-     *
      * @OA\Post(
      *     path="/api/v1/auth/user",
      *     summary="Criação de um novo usuário",
@@ -41,8 +36,10 @@ class UserController extends Controller
      *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"name", "document", "email", "password", "password_confirmation"},
+     *
      *             @OA\Property(property="name", type="string", example="João Silva"),
      *             @OA\Property(property="document", type="string", example="41590444094", description="Valid CPF or CNPJ (numbers only)"),
      *             @OA\Property(property="email", type="string", format="email", example="joao@example.com"),
@@ -54,7 +51,9 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=201,
      *         description="User created successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="User created successfully."),
      *             @OA\Property(
      *                 property="data",
@@ -68,8 +67,10 @@ class UserController extends Controller
      *                 @OA\Property(
      *                     property="permissions",
      *                     type="array",
+     *
      *                     @OA\Items(
      *                         type="object",
+     *
      *                         @OA\Property(property="name", type="string", example="send_transaction"),
      *                         @OA\Property(property="description", type="string", nullable=true, example="Permission to send transactions")
      *                     )
@@ -81,7 +82,9 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=409,
      *         description="User already exists (duplicate email or document) or Invalid document",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="This user already exists")
      *         )
      *     ),
@@ -89,7 +92,9 @@ class UserController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Validation errors",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="message", type="string", example="The given data was invalid."),
      *             @OA\Property(
      *                 property="errors",
@@ -109,6 +114,7 @@ class UserController extends Controller
         $dto = $this->userStoreMapper->fromRequestToDto($request);
         $user = $this->userStoreAction->handle($dto);
         $response = $this->userStoreMapper->fromModelToResource($user);
+
         return response()->json($response, Response::HTTP_CREATED);
     }
 }
