@@ -10,9 +10,7 @@ readonly class TransferDifferentUsersValidatorService
 {
     public function __construct(
         private LoggerServiceInterface $logger,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Valida se pagador e recebedor são usuários diferentes.

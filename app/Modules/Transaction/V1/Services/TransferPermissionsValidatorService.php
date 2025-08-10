@@ -12,10 +12,7 @@ readonly class TransferPermissionsValidatorService
 {
     public function __construct(
         private LoggerServiceInterface $logger,
-    )
-    {
-    }
-
+    ) {}
 
     /**
      * Verifica se o pagador possui permissão para enviar transações.

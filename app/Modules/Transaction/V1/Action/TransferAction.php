@@ -2,17 +2,11 @@
 
 namespace App\Modules\Transaction\V1\Action;
 
-use App\Modules\Common\V1\Services\Http\HttpServiceInterface;
 use App\Modules\Common\V1\Services\Logger\LoggerServiceInterface;
 use App\Modules\Common\V1\Services\Transaction\TransactionServiceInterface;
-use App\Modules\Permissions\V1\Enums\PermissionsNameEnum;
 use App\Modules\Transaction\V1\Events\TransferSuccessfullyEvent;
-use App\Modules\Transaction\V1\Exceptions\DoesNotHavePermissionToReceiveTransactionException;
-use App\Modules\Transaction\V1\Exceptions\DoesNotHavePermissionToSendTransactionException;
-use App\Modules\Transaction\V1\Exceptions\InsufficientBalanceToSendTransactionException;
 use App\Modules\Transaction\V1\Exceptions\PayerAndPayeeAreTheSameUserException;
 use App\Modules\Transaction\V1\Exceptions\TransferAmountMustBeGreaterThanZeroException;
-use App\Modules\Transaction\V1\Exceptions\UnauthorizedTransferException;
 use App\Modules\Transaction\V1\Http\Dtos\TransferDto;
 use App\Modules\Transaction\V1\Services\TransferAmountValidatorService;
 use App\Modules\Transaction\V1\Services\TransferDifferentUsersValidatorService;
@@ -31,15 +25,15 @@ use App\Modules\Wallet\V1\Repositories\WalletRepositoryInterface;
 readonly class TransferAction
 {
     public function __construct(
-        private UserRepositoryInterface                $userRepository,
-        private TransactionServiceInterface            $transactionService,
-        private WalletRepositoryInterface              $walletRepository,
-        private TransferAmountValidatorService         $transferAmountValidatorService,
+        private UserRepositoryInterface $userRepository,
+        private TransactionServiceInterface $transactionService,
+        private WalletRepositoryInterface $walletRepository,
+        private TransferAmountValidatorService $transferAmountValidatorService,
         private TransferDifferentUsersValidatorService $transferValidatorDifferentUsersService,
-        private TransferVerifyPayerAuthorizationService  $transferVerifyPayerAuthorizationService,
-        private TransferPermissionsValidatorService  $transferPermissionsValidatorService,
-        private TransferSuficientBalanceValidatorService  $transferSuficientBalanceValidatorService,
-        private LoggerServiceInterface                 $logger,
+        private TransferVerifyPayerAuthorizationService $transferVerifyPayerAuthorizationService,
+        private TransferPermissionsValidatorService $transferPermissionsValidatorService,
+        private TransferSuficientBalanceValidatorService $transferSuficientBalanceValidatorService,
+        private LoggerServiceInterface $logger,
     ) {}
 
     /**
@@ -58,7 +52,8 @@ readonly class TransferAction
      *   de forma assíncrona com re-tentativas em caso de falha e que cria, de forma sincrona, o historico
      *   de transação entre as carteiras.
      *
-     * @param TransferDto $dto Dados da transferência.
+     * @param  TransferDto  $dto  Dados da transferência.
+     *
      * @throws TransferAmountMustBeGreaterThanZeroException
      * @throws PayerAndPayeeAreTheSameUserException
      */
@@ -87,9 +82,6 @@ readonly class TransferAction
             event(new TransferSuccessfullyEvent(payee: $payee, amount: $dto->getAmount(), payer: $payer));
         });
     }
-
-
-
 
     /**
      * Busca o usuário pagador pelo UUID informado no DTO.

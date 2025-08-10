@@ -9,13 +9,9 @@ use App\Modules\User\V1\Models\User;
 
 readonly class TransferSuficientBalanceValidatorService
 {
-
     public function __construct(
         private LoggerServiceInterface $logger,
-    )
-    {
-    }
-
+    ) {}
 
     /**
      * Verifica se o pagador possui saldo suficiente para realizar a transferência.
@@ -32,5 +28,4 @@ readonly class TransferSuficientBalanceValidatorService
         }
         $this->logger->debug("User {$payer->uuid} has sufficient balance: {$payer->wallet->amount}.");
     }
-
 }

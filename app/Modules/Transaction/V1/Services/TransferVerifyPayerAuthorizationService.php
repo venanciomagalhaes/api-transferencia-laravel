@@ -11,9 +11,7 @@ readonly class TransferVerifyPayerAuthorizationService
     public function __construct(
         private LoggerServiceInterface $logger,
         private HttpServiceInterface $httpService,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Consulta serviço externo para verificar autorização da transferência.

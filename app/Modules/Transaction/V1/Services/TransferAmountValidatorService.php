@@ -10,9 +10,7 @@ readonly class TransferAmountValidatorService
 {
     public function __construct(
         private LoggerServiceInterface $logger,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Valida se o valor da transferência é maior que zero.
@@ -28,5 +26,4 @@ readonly class TransferAmountValidatorService
             throw new TransferAmountMustBeGreaterThanZeroException('Transfer amount must be greater than zero.');
         }
     }
-
 }
