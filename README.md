@@ -10,8 +10,8 @@ A API segue o padrão REST e possui dois endpoints principais: um para cadastro 
 
 ```json  
 {  
- "value": 100.0, "payer": "uuid-do-pagador", "payee": "uuid-do-recebedor"}  
-  
+ "value": 100.0, "payer": "uuid-do-pagador", "payee": "uuid-do-recebedor"
+}  
 ```  
 
 Para garantir segurança, o endpoint de transferência foi ajustado para receber os UUIDs dos usuários pagador (payer) e recebedor (payee).
@@ -40,21 +40,8 @@ php artisan test
 ## Banco de dados
 
 O modelo de dados foi estruturado para refletir os tipos de usuário, suas carteiras e transações, garantindo integridade e performance.  
+
 ![img.png](img.png)
-
-## Tratamento de erros
-
-O tratamento de erros é centralizado no `AppExceptionHandler`, que captura e formata exceções específicas de regras de negócio, garantindo respostas HTTP apropriadas e claras para o cliente.
-
-## Desacoplamento e arquitetura limpa
-
-Os componentes foram desacoplados via interfaces, facilitando manutenção, testes e evolução. Exemplos incluem serviços de cache (`CacheService`), HTTP (`HttpService`), logging (`LoggerService`) e transações (`TransactionService`).
-
-## Ambiente e orquestração
-
-A aplicação é containerizada utilizando Docker e Docker Compose para facilitar o ambiente de desenvolvimento e implantação, alinhando-se às melhores práticas modernas.
-
-
 
 ## Tratamento de erros
 O tratamento de erros é centralizado no AppExceptionHandler, que captura e formata exceções específicas de regras de negócio, garantindo respostas HTTP apropriadas e claras para o cliente.
@@ -106,6 +93,7 @@ docker compose up -d --build
 ```
 
 4. Para remover a aplicação, use
+5. 
 ```bash
 docker compose down -v
 ```
