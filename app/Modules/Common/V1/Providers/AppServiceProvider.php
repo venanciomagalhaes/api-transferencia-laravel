@@ -14,11 +14,20 @@ use App\Modules\Common\V1\Services\Transaction\TransactionServiceInterface;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Provedor de serviços da aplicação.
+ *
+ * Responsável por registrar e configurar os bindings e singletons
+ * do container de serviços do Laravel para a aplicação.
+ *
+ * Faz o binding de interfaces para suas implementações concretas,
+ * garantindo a injeção de dependências correta ao longo do sistema.
+ * Também registra o manipulador de exceções personalizado da aplicação.
+ *
+ */
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+
     public function register(): void
     {
         $this->app->bind(LoggerServiceInterface::class, LoggerService::class);
@@ -28,9 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(HttpServiceInterface::class, HttpService::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
+
     public function boot(): void
     {
         //
