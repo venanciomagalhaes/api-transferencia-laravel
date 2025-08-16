@@ -19,16 +19,19 @@
     </source>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="LOG_STACK" value="single"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
-<!--        <env name="DB_CONNECTION" value="sqlite"/>-->
-<!--        <env name="DB_DATABASE" value=":memory:"/>-->
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="NIGHTWATCH_ENABLED" value="false"/>
+        <env name="AUTHORIZE_TRANSACTION_ENDPOINT_URL" value="https://util.devi.tools/api/v2/authorize"/>
+        <env name="NOTIFICATION_SERVICE_ENDPOINT_URL" value="https://util.devi.tools/api/v1/notify"/>
     </php>
 </phpunit>
