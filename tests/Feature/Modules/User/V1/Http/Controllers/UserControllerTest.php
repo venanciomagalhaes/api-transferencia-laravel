@@ -41,7 +41,7 @@ test('deve criar um novo usuário com sucesso e com carteira de 1000.00', functi
 
     $user = User::where('email', 'joao@example.com')->first();
 
-    expect($user->wallet->amount)->toBe('1000.00');
+    expect($user->wallet->amount)->toBe(1000);
 });
 
 test('deve impedir criação de usuário com email duplicado', function () use ($endpoint) {
