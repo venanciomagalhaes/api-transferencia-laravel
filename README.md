@@ -1,5 +1,3 @@
-
- 
 # DETALHAMENTO TÉCNICO
 
 ## Arquitetura do sistema
