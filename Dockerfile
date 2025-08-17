@@ -37,6 +37,8 @@ COPY --from=node:lts-alpine /usr/local/ /usr/local/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+COPY . .
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
